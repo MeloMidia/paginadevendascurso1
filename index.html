@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autopeças no Mercado Livre — Curso Online</title>
+
+  <!-- META PIXEL — substitua YOUR_PIXEL_ID -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      }; if (!f._fbq) f._fbq = n;
+      n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+    }(window,
+      document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" /></noscript>
+
+  <!-- UTIMIFY — substitua YOUR_UTIMIFY_TOKEN -->
+  <script>
+    (function (w, d, s) {
+      var t = d.createElement(s); t.async = true;
+      t.src = 'https://cdn.utimify.com/utimify.js';
+      t.setAttribute('data-token', 'YOUR_UTIMIFY_TOKEN');
+      d.head.appendChild(t);
+    })(window, document, 'script');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+
+  <style>
+    /* ══ TOKENS ══ */
+    :root {
+      --c-bg: #07070C;
+      --c-gold: #FFD234;
+      --c-gold-glow: rgba(255, 210, 52, 0.20);
+      --c-gold-dim: rgba(255, 210, 52, 0.10);
+      --c-text: #FFFFFF;
+      --c-muted: #8A8AA8;
+      --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: var(--c-bg);
+      color: var(--c-text);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ══ HERO ══ */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+      background: var(--c-bg);
+    }
+
+    /* Foto instrutor — fundo */
+    .hero__photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      z-index: 0;
+    }
+
+
+    /* Gradiente bottom → legibilidade do copy */
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top,
+          rgba(7, 7, 12, 1) 0%,
+          rgba(7, 7, 12, 0.85) 28%,
+          rgba(7, 7, 12, 0.35) 55%,
+          transparent 78%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Brilho dourado atrás do copy */
+    .hero__glow {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 380px;
+      height: 240px;
+      background: radial-gradient(ellipse, var(--c-gold-glow) 0%, transparent 70%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ══ COPY ══ */
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 14px;
+      padding: 0 22px 44px;
+    }
+
+    /* Eyebrow */
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--c-gold-dim);
+      border: 1px solid rgba(255, 210, 52, 0.28);
+      color: var(--c-gold);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 5px 13px;
+      border-radius: 999px;
+    }
+
+    /* Headline — curta, impactante */
+    .hero__headline {
+      font-size: clamp(2rem, 8vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      max-width: 520px;
+    }
+
+    .hero__headline em {
+      font-style: normal;
+      color: var(--c-gold);
+    }
+
+    /* Subline — 1 linha, discreta */
+    .hero__subline {
+      font-size: clamp(0.85rem, 2.8vw, 0.95rem);
+      color: var(--c-muted);
+      max-width: 360px;
+      line-height: 1.55;
+    }
+
+    /* CTA — button-in-button */
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      width: 100%;
+      max-width: 360px;
+      justify-content: center;
+      background: var(--c-gold);
+      color: #07070C;
+      font-family: inherit;
+      font-size: clamp(0.95rem, 3vw, 1.05rem);
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 5px 5px 5px 22px;
+      margin-top: 4px;
+      box-shadow: 0 0 40px var(--c-gold-glow);
+      transition: transform 600ms var(--ease-spring), box-shadow 600ms var(--ease-spring), filter 250ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-cta:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 56px rgba(255, 210, 52, 0.45);
+      filter: brightness(1.06);
+    }
+
+    .btn-cta:active {
+      transform: scale(0.98);
+    }
+
+    .btn-cta__icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 14px;
+      flex-shrink: 0;
+      transition: transform 500ms var(--ease-spring);
+    }
+
+    .btn-cta:hover .btn-cta__icon {
+      transform: translateX(2px) translateY(-1px) scale(1.1);
+    }
+
+    /* Garantia */
+    .guarantee {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: var(--c-muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .guarantee svg {
+      color: var(--c-gold);
+      flex-shrink: 0;
+    }
+
+
+    /* ══ REVEAL (hero) ══ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+
+    /* ══ SCROLL REVEAL (seções) ══ */
+    .sr {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s var(--ease-spring), transform 0.7s var(--ease-spring);
+    }
+
+    .sr.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ══ SEÇÃO MÓDULOS ══ */
+    .modules {
+      background: var(--c-bg);
+      padding: clamp(64px, 12vw, 110px) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Glow decorativo de fundo */
+    .modules::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(255, 210, 52, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .modules__inner {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 48px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(40px, 7vw, 64px);
+    }
+
+    /* Cabeçalho */
+    .modules__header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+    }
+
+    .modules__title {
+      font-size: clamp(1.7rem, 5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      max-width: 680px;
+    }
+
+    .modules__title em {
+      font-style: normal;
+      color: var(--c-gold);
+    }
+
+    .modules__sub {
+      font-size: clamp(0.88rem, 2.5vw, 1rem);
+      color: var(--c-muted);
+      max-width: 440px;
+      line-height: 1.6;
+    }
+
+    .br-md {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .br-md {
+        display: block;
+      }
+    }
+
+    /* ── VSL ── */
+    .vsl-wrap {
+      width: 100%;
+    }
+
+    .vsl {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: clamp(14px, 2vw, 22px);
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 1px rgba(255, 210, 52, 0.08), 0 32px 80px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+    }
+
+    /* Vídeo ocupa 100% do container */
+    .vsl__video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      background: #000;
+    }
+
+    /* Pulsating animation for VSL unmute button */
+    @keyframes pulse-gold {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 210, 52, 0.4);
+      }
+
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 15px rgba(255, 210, 52, 0);
+      }
+
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 210, 52, 0);
+      }
+    }
+
+    /* VSL style banner overlay - starts blurred/darkened */
+    .vsl__unmute-banner {
+      position: absolute;
+      inset: 0;
+      background: rgba(7, 7, 12, 0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 4;
+      transition: opacity 350ms ease, visibility 350ms ease;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .vsl__unmute-banner.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Pulsating central button */
+    .vsl__unmute-btn {
+      background: var(--c-gold);
+      color: #07070C;
+      border: none;
+      padding: clamp(14px, 3vw, 20px) clamp(28px, 5vw, 44px);
+      border-radius: 999px;
+      font-size: clamp(0.9rem, 2.2vw, 1.15rem);
+      font-weight: 800;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 0 40px var(--c-gold-glow);
+      animation: pulse-gold 2s infinite ease-in-out;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .vsl__unmute-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    /* Fake play overlay when paused after unmuting */
+    .vsl__play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(7, 7, 12, 0.4);
+      z-index: 2;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 300ms ease, visibility 300ms ease;
+    }
+
+    .vsl__play-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .vsl__play-btn {
+      width: clamp(64px, 10vw, 88px);
+      height: clamp(64px, 10vw, 88px);
+      border-radius: 50%;
+      background: var(--c-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #07070C;
+      padding-left: 5px;
+      box-shadow: 0 0 0 12px rgba(255, 210, 52, 0.15), 0 0 48px rgba(255, 210, 52, 0.4);
+      transform: scale(0.9);
+      transition: transform 300ms var(--ease-spring);
+    }
+
+    .vsl:hover .vsl__play-btn {
+      transform: scale(1);
+    }
+
+    /* Progress bar styling */
+    .vsl__progress-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .vsl__progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--c-gold);
+      transition: width 100ms linear;
+    }
+
+
+    /* ── Linha do Tempo dos Módulos ── */
+    .modules__timeline {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      gap: 0;
+    }
+
+    /* Cada item da linha do tempo */
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      position: relative;
+    }
+
+    /* Cards */
+    .timeline-card {
+      position: relative;
+      background: #09090E;
+      border: 1.5px solid var(--c-gold);
+      border-radius: 6px;
+      padding: clamp(24px, 4vw, 36px) clamp(20px, 3.5vw, 32px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 300ms var(--ease-spring), box-shadow 300ms ease;
+      z-index: 1;
+      min-height: 140px;
+      margin-bottom: 40px;
+    }
+
+    .timeline-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(255, 210, 52, 0.12);
+    }
+
+    /* Selo / Badge com Checkmark */
+    .timeline-card__badge-wrap {
+      position: absolute;
+      top: 0;
+      left: 20px;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--c-gold);
+      background: var(--c-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .timeline-card__badge {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* Título e descrição do card */
+    .timeline-card__title {
+      font-size: clamp(0.92rem, 2.4vw, 1.05rem);
+      font-weight: 700;
+      color: var(--c-text);
+      line-height: 1.45;
+    }
+
+    .timeline-card__title span {
+      font-weight: 800;
+      color: var(--c-gold);
+      font-style: normal;
+    }
+
+    .timeline-card__desc {
+      font-size: clamp(0.76rem, 1.8vw, 0.85rem);
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.6;
+    }
+
+    /* Conectores decorativos */
+    .timeline-connector {
+      position: relative;
+      height: 100%;
+      min-height: 140px;
+    }
+
+    .timeline-connector__line {
+      position: relative;
+      height: 90px;
+      width: 55%;
+      margin-top: 50px;
+    }
+
+    /* Dots on connector line ends */
+    .connector-dot {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background-color: #FFFFFF;
+      z-index: 3;
+    }
+
+    /* Alinhamento para Esquerda e Direita no Desktop */
+    .timeline-item--left .timeline-card {
+      grid-column: 1;
+      margin-right: 24px;
+    }
+
+    .timeline-item--left .timeline-connector {
+      grid-column: 2;
+    }
+
+    .timeline-item--left .timeline-connector__line {
+      border-top: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-right: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-top-right-radius: 20px;
+      margin-left: 0;
+    }
+
+    .timeline-item--left .connector-dot--start {
+      top: -3px;
+      left: -3px;
+    }
+
+    .timeline-item--left .connector-dot--end {
+      bottom: -3px;
+      right: -3px;
+    }
+
+    .timeline-item--right .timeline-connector {
+      grid-column: 1;
+    }
+
+    .timeline-item--right .timeline-card {
+      grid-column: 2;
+      margin-left: 24px;
+    }
+
+    .timeline-item--right .timeline-connector__line {
+      border-top: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-left: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-top-left-radius: 20px;
+      margin-left: auto;
+      margin-right: 0;
+    }
+
+    .timeline-item--right .connector-dot--start {
+      top: -3px;
+      right: -3px;
+    }
+
+    .timeline-item--right .connector-dot--end {
+      bottom: -3px;
+      left: -3px;
+    }
+
+    /* ── CTA interno ── */
+    .modules__cta {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Responsividade para mobile */
+    @media (max-width: 767px) {
+      .modules__timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      .timeline-item {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .timeline-card {
+        margin-bottom: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100%;
+      }
+
+      .timeline-connector {
+        display: none !important;
+      }
+    }
+
+    /* ══ DESKTOP ≥ 768px ══ */
+    @media (min-width: 768px) {
+
+      .hero {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: stretch;
+      }
+
+      .hero__photo {
+        right: 0;
+        top: 0;
+        width: 54%;
+        object-position: center top;
+      }
+
+      /* overlay lateral no desktop */
+      .hero__overlay {
+        background: linear-gradient(to right,
+            rgba(7, 7, 12, 1) 0%,
+            rgba(7, 7, 12, 0.95) 28%,
+            rgba(7, 7, 12, 0.55) 56%,
+            transparent 78%);
+      }
+
+      .hero__glow {
+        left: 26%;
+        bottom: 50%;
+        transform: translate(-50%, 50%);
+        width: 520px;
+        height: 520px;
+      }
+
+      .hero__content {
+        width: 54%;
+        max-width: 660px;
+        align-items: flex-start;
+        text-align: left;
+        justify-content: center;
+        padding: 80px 0 80px clamp(40px, 6vw, 96px);
+        gap: 18px;
+      }
+
+      .btn-cta {
+        width: auto;
+        align-self: flex-start;
+      }
+
+      .guarantee {
+        justify-content: flex-start;
+      }
+
+    }
+
+    /* ══ FAIXA ANIMADA: MERCADO LIVRE ══ */
+    .ml-marquee {
+      background: #ffe502;
+      padding: clamp(16px, 2.5vw, 24px) 0;
+      overflow: hidden;
+      display: flex;
+      white-space: nowrap;
+      position: relative;
+      border-top: 1.5px solid rgba(0, 0, 0, 0.08);
+      border-bottom: 1.5px solid rgba(0, 0, 0, 0.08);
+      z-index: 5;
+    }
+
+    .ml-marquee__track {
+      display: flex;
+      width: max-content;
+      animation: marquee-scroll 20s linear infinite;
+    }
+
+    .ml-marquee__item {
+      display: flex;
+      align-items: center;
+      padding: 0 clamp(24px, 4vw, 48px);
+      flex-shrink: 0;
+    }
+
+    .ml-marquee__img {
+      height: clamp(55px, 6vw, 75px);
+      width: clamp(105px, 11.5vw, 143px);
+      display: block;
+      flex-shrink: 0;
+      object-fit: contain;
+    }
+
+    @keyframes marquee-scroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ══ SEÇÃO SOBRE MIM (CARROSSEL INTERATIVO) ══ */
+    .about {
+      background: #0B0B12;
+      padding: clamp(64px, 10vw, 96px) 0;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* Glow de fundo sutil */
+    .about::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 10%;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(255, 210, 52, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .about__inner {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 48px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(32px, 5vw, 48px);
+    }
+
+    .about__title {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
+
+    .about__title em {
+      font-style: normal;
+      color: var(--c-gold);
+    }
+
+    /* Container Split do Carrossel */
+    .carousel-container {
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr;
+      gap: clamp(32px, 6vw, 64px);
+      align-items: center;
+    }
+
+    @media (max-width: 991px) {
+      .carousel-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    /* Lado Esquerdo: Imagens */
+    .carousel-images-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255, 210, 52, 0.15);
+      background: #07070C;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Slides de imagens */
+    .carousel-image-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 600ms cubic-bezier(0.25, 1, 0.5, 1), transform 600ms cubic-bezier(0.25, 1, 0.5, 1);
+      transform: scale(1.05);
+    }
+
+    .carousel-image-slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+
+    .carousel-image-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Lado Direito: Conteúdos de Texto */
+    .carousel-content-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 280px;
+    }
+
+    .carousel-text-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: opacity 500ms ease, transform 500ms var(--ease-spring), visibility 500ms ease;
+    }
+
+    .carousel-text-slide.active {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .carousel-slide-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--c-gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .carousel-slide-title {
+      font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+      font-weight: 800;
+      color: #FFF;
+      line-height: 1.25;
+    }
+
+    .carousel-slide-desc {
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      color: var(--c-muted);
+      line-height: 1.6;
+    }
+
+    /* Caixa de Métrica no slide */
+    .carousel-slide-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .carousel-meta-badge {
+      background: var(--c-gold-dim);
+      border: 1px solid rgba(255, 210, 52, 0.2);
+      color: var(--c-gold);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .carousel-meta-text {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 500;
+    }
+
+    /* Controles e Indicadores */
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Centraliza os dots */
+      margin-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 24px;
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: width 300ms ease, background 300ms ease, border-radius 300ms ease;
+    }
+
+    .carousel-dot.active {
+      width: 24px;
+      border-radius: 4px;
+      background: var(--c-gold);
+    }
+
+    .carousel-nav-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(7, 7, 12, 0.6);
+      /* Fundo escuro semitransparente para legibilidade sobre a foto */
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 300ms ease, border-color 300ms ease, transform 200ms ease, color 300ms ease;
+      padding: 0;
+      z-index: 10;
+    }
+
+    .carousel-nav-btn--prev {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .carousel-nav-btn--next {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .carousel-nav-btn:hover {
+      background: var(--c-gold);
+      /* Dourado premium no hover */
+      border-color: var(--c-gold);
+      color: #07070C;
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .carousel-nav-btn:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    @media (max-width: 576px) {
+      .carousel-nav-btn {
+        width: 36px;
+        height: 36px;
+      }
+
+      .carousel-nav-btn--prev {
+        left: 8px;
+      }
+
+      .carousel-nav-btn--next {
+        right: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="hero">
+
+    <!-- Foto do instrutor — mobile: nova imagem com cards, desktop: instructor.png -->
+    <picture>
+      <source media="(max-width: 767px)" srcset="imgs/instructorMobile.png" />
+      <img class="hero__photo" src="imgs/instructor.png" alt="Instrutor — Autopeças no Mercado Livre"
+        fetchpriority="high" loading="eager" />
+    </picture>
+
+    <!-- Overlay gradiente -->
+    <div class="hero__overlay"></div>
+    <div class="hero__glow"></div>
+
+    <!-- Copy -->
+    <div class="hero__content">
+
+      <span class="eyebrow reveal">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
+        Curso online · Acesso imediato
+      </span>
+
+      <h1 class="hero__headline reveal">
+        Do estoque parado<br>
+        ao <em>faturamento no<br>Mercado Livre</em>
+      </h1>
+
+      <p class="hero__subline reveal">
+        Método exclusivo para autopeças no Mercado Livre — do primeiro anúncio à escala.
+      </p>
+
+      <a href="https://pay.kiwify.com.br/SEU-LINK-AQUI" class="btn-cta reveal"
+        onclick="typeof fbq!=='undefined' && fbq('track','InitiateCheckout')" target="_blank" rel="noopener">
+        Quero começar a vender agora
+        <span class="btn-cta__icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </span>
+      </a>
+
+      <p class="guarantee reveal">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        Garantia incondicional de 7 dias
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SEÇÃO: O CURSO — MÓDULOS
+  ══════════════════════════════════════ -->
+  <section class="modules">
+
+    <div class="modules__inner">
+
+      <!-- Cabeçalho -->
+      <div class="modules__header sr">
+        <h2 class="modules__title">
+          Saiba o que <em>você vai aprender</em>:
+        </h2>
+      </div>
+
+      <!-- VSL -->
+      <div class="vsl-wrap sr">
+        <div class="vsl" id="vsl" onclick="vslClick()">
+
+          <video id="vslVideo" class="vsl__video" src="imgs/videoAreaDeMembros_web.mp4" autoplay muted loop playsinline
+            preload="auto"></video>
+
+          <!-- VSL Unmute Banner overlay -->
+          <div class="vsl__unmute-banner" id="vslUnmuteBanner">
+            <button class="vsl__unmute-btn">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+              </svg>
+              Clique para ativar o som
+            </button>
+          </div>
+
+          <!-- Central Play button overlay (if unmuted and paused) -->
+          <div class="vsl__play-overlay" id="vslPlayOverlay">
+            <div class="vsl__play-btn">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Custom progress bar -->
+          <div class="vsl__progress-container">
+            <div class="vsl__progress-bar" id="vslProgressBar"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Linha do tempo dos módulos -->
+      <div class="modules__timeline">
+
+        <!-- Módulo 1 -->
+        <div class="timeline-item timeline-item--left sr">
+          <div class="timeline-card">
+            <div class="timeline-card__badge-wrap">
+              <svg class="timeline-card__badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+                  fill="#FFD234" />
+                <path d="m9 12 2 2 4-4" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="timeline-card__title">Como <span>criar sua conta</span> começando do zero</h3>
+            <p class="timeline-card__desc">Passo a passo de como entrar na plataforma e criar seu cadastro do zero
+              corretamente.</p>
+          </div>
+          <div class="timeline-connector">
+            <div class="timeline-connector__line">
+              <span class="connector-dot connector-dot--start"></span>
+              <span class="connector-dot connector-dot--end"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Módulo 2 -->
+        <div class="timeline-item timeline-item--right sr">
+          <div class="timeline-connector">
+            <div class="timeline-connector__line">
+              <span class="connector-dot connector-dot--start"></span>
+              <span class="connector-dot connector-dot--end"></span>
+            </div>
+          </div>
+          <div class="timeline-card">
+            <div class="timeline-card__badge-wrap">
+              <svg class="timeline-card__badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+                  fill="#FFD234" />
+                <path d="m9 12 2 2 4-4" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="timeline-card__title">Passo a passo para <span>começar a vender</span> em menos de 3 dias</h3>
+            <p class="timeline-card__desc">Como começar sem erros, a vender seus produtos em menos de 3 dias na sua
+              loja.</p>
+          </div>
+        </div>
+
+        <!-- Módulo 5 -->
+        <div class="timeline-item timeline-item--left sr">
+          <div class="timeline-card">
+            <div class="timeline-card__badge-wrap">
+              <svg class="timeline-card__badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+                  fill="#FFD234" />
+                <path d="m9 12 2 2 4-4" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="timeline-card__title">Crie anúncios que <span>vendem 10x</span> mais</h3>
+            <p class="timeline-card__desc">Aprenda a criar campanhas de anúncios que vendem 24 horas por dia.</p>
+          </div>
+          <div class="timeline-connector">
+            <div class="timeline-connector__line">
+              <span class="connector-dot connector-dot--start"></span>
+              <span class="connector-dot connector-dot--end"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Módulo 6 -->
+        <div class="timeline-item timeline-item--right sr">
+          <div class="timeline-connector">
+            <div class="timeline-connector__line">
+              <span class="connector-dot connector-dot--start"></span>
+              <span class="connector-dot connector-dot--end"></span>
+            </div>
+          </div>
+          <div class="timeline-card">
+            <div class="timeline-card__badge-wrap">
+              <svg class="timeline-card__badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+                  fill="#FFD234" />
+                <path d="m9 12 2 2 4-4" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="timeline-card__title">Como aumentar vendas com <span>Marketing dentro do Mercado Livre</span>
+            </h3>
+            <p class="timeline-card__desc">Vou te ensinar a fazer campanhas de marketing assertivas para seus produtos.
+            </p>
+          </div>
+        </div>
+
+        <!-- Módulo 7 -->
+        <div class="timeline-item timeline-item--left sr">
+          <div class="timeline-card">
+            <div class="timeline-card__badge-wrap">
+              <svg class="timeline-card__badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+                  fill="#FFD234" />
+                <path d="m9 12 2 2 4-4" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="timeline-card__title">Precificação<span> dos produtos</span></h3>
+            <p class="timeline-card__desc">Vou te ensinar a precificar seus produtos corretamente.</p>
+          </div>
+          <div class="timeline-connector">
+            <div class="timeline-connector__line">
+              <span class="connector-dot connector-dot--start"></span>
+              <span class="connector-dot connector-dot--end"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CTA interno -->
+      <div class="modules__cta sr">
+        <a href="https://pay.kiwify.com.br/SEU-LINK-AQUI" class="btn-cta"
+          onclick="typeof fbq!=='undefined' && fbq('track','InitiateCheckout')" target="_blank" rel="noopener">
+          Quero acessar todos os módulos
+          <span class="btn-cta__icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FAIXA ANIMADA: MERCADO LIVRE
+  ══════════════════════════════════════ -->
+  <div class="ml-marquee">
+    <div class="ml-marquee__track">
+      <!-- Primeiro grupo de logos -->
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+
+      <!-- Segundo grupo (Cópia para o loop perfeito) -->
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+      <div class="ml-marquee__item">
+        <img class="ml-marquee__img" src="imgs/ml-logo.png?v=2" alt="Mercado Livre">
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SEÇÃO: SOBRE MIM (GUIDE STORY)
+  ══════════════════════════════════════ -->
+  <section class="about sr">
+    <div class="about__inner">
+
+      <h2 class="about__title">Prazer, eu sou o <em>Eduardo Melo</em></h2>
+
+      <div class="carousel-container">
+
+        <!-- Imagens (Esquerda) -->
+        <div class="carousel-images-wrap">
+          <div class="carousel-image-slide active">
+            <img src="imgs/sobremimCarrossel01.jpeg" alt="Minha história no Mercado Livre - Começo da Jornada"
+              loading="lazy">
+          </div>
+          <div class="carousel-image-slide">
+            <img src="imgs/sobremimCarrossel02.jpeg" alt="Descoberta do Método de Vendas de Autopeças" loading="lazy">
+          </div>
+          <div class="carousel-image-slide">
+            <img src="imgs/sobremimCarrossel03.jpeg" alt="Escala de Faturamento no Mercado Livre" loading="lazy">
+          </div>
+          <div class="carousel-image-slide">
+            <img src="imgs/sobremimCarrossel04.jpeg" alt="Convite para o Treinamento do Mercado Livre" loading="lazy">
+          </div>
+
+          <!-- Botões de navegação posicionados no meio das laterais da imagem -->
+          <button class="carousel-nav-btn carousel-nav-btn--prev" id="prevSlide" aria-label="Slide anterior">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button class="carousel-nav-btn carousel-nav-btn--next" id="nextSlide" aria-label="Próximo slide">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Conteúdos de Texto (Direita) -->
+        <div class="carousel-content-wrap">
+
+          <!-- Slide 1 -->
+          <div class="carousel-text-slide active" data-index="0">
+            <span class="carousel-slide-eyebrow">A Frustração Inicial</span>
+            <h3 class="carousel-slide-title">Eu já estive exatamente no mesmo lugar que você</h3>
+            <p class="carousel-slide-desc">
+              Trabalhando horas a fio em uma autopeças física, vendo o estoque parado acumular poeira e gerando prejuízo
+              diário. Sentia a frustração de saber que o mercado digital estava decolando, mas não sabia como fazer
+              minhas primeiras vendas online com lucro real.
+            </p>
+            <div class="carousel-slide-meta">
+              <span class="carousel-meta-badge">A Origem</span>
+              <span class="carousel-meta-text">Sentindo na pele a dor do estoque travado</span>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-text-slide" data-index="1">
+            <span class="carousel-slide-eyebrow">A Virada de Chave</span>
+            <h3 class="carousel-slide-title">Decifrei o algoritmo do Mercado Livre para Autopeças</h3>
+            <p class="carousel-slide-desc">
+              Passei anos estudando os mecanismos de busca do Mercado Livre, aplicando técnicas de SEO voltadas para
+              autopeças, testando anúncios patrocinados (Mercado Ads) e precificação estratégica de frete. Criei um
+              método testado que posiciona anúncios no topo em 3 dias.
+            </p>
+            <div class="carousel-slide-meta">
+              <span class="carousel-meta-badge">A Descoberta</span>
+              <span class="carousel-meta-text">O nascimento de um método replicável</span>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-text-slide" data-index="2">
+            <span class="carousel-slide-eyebrow">A Escala</span>
+            <h3 class="carousel-slide-title">Faturamento recorrente e múltiplos 6 dígitos por mês</h3>
+            <p class="carousel-slide-desc">
+              O que começou como uma tentativa virou uma operation robusta de vendas diárias. Coloquei dezenas de
+              autopeças no topo do Mercado Livre, gerando faturamentos impressionantes. Esse método não é sorte; é pura
+              técnica voltada exclusivamente ao nicho de peças automotivas.
+            </p>
+            <div class="carousel-slide-meta">
+              <span class="carousel-meta-badge">Autoridade</span>
+              <span class="carousel-meta-text">Múltiplos seis dígitos de faturamento mensal</span>
+            </div>
+          </div>
+
+          <!-- Slide 4 -->
+          <div class="carousel-text-slide" data-index="3">
+            <span class="carousel-slide-eyebrow">Seu Próximo Passo</span>
+            <h3 class="carousel-slide-title">Vou te guiar pelo caminho mais rápido e lucrativo</h3>
+            <p class="carousel-slide-desc">
+              Agora, meu objetivo é encurtar a sua curva de aprendizado. Criei este treinamento prático para que você
+              possa aplicar o mesmo passo a passo na sua autopeças e colher resultados reais imediatamente, sem errar na
+              precificação ou perder dinheiro em anúncios errados.
+            </p>
+            <div class="carousel-slide-meta">
+              <span class="carousel-meta-badge">O Convite</span>
+              <span class="carousel-meta-text">Seu acesso imediato ao método passo a passo</span>
+            </div>
+          </div>
+
+          <!-- Controles e Dots -->
+          <div class="carousel-controls">
+            <div class="carousel-dots">
+              <button class="carousel-dot active" data-index="0" aria-label="Slide 1"></button>
+              <button class="carousel-dot" data-index="1" aria-label="Slide 2"></button>
+              <button class="carousel-dot" data-index="2" aria-label="Slide 3"></button>
+              <button class="carousel-dot" data-index="3" aria-label="Slide 4"></button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Próximas seções aqui -->
+
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+
+      // ── Hero: fade-up staggerado via GSAP
+      if (typeof gsap !== 'undefined') {
+        gsap.utils.toArray('.hero .reveal').forEach(function (el, i) {
+          gsap.to(el, {
+            opacity: 1, y: 0,
+            duration: 0.85,
+            delay: 0.2 + i * 0.12,
+            ease: 'power3.out',
+          });
+        });
+      }
+
+      // ── VSL Player Logic
+      var vslVideo = document.getElementById('vslVideo');
+      var vslUnmuteBanner = document.getElementById('vslUnmuteBanner');
+      var vslPlayOverlay = document.getElementById('vslPlayOverlay');
+      var vslProgressBar = document.getElementById('vslProgressBar');
+
+      // Tenta dar autoplay muted garantido ao carregar
+      if (vslVideo) {
+        vslVideo.muted = true;
+        vslVideo.play().catch(function () {
+          // Autoplay foi bloqueado (raro com mudo), mas está preparado
+        });
+
+        // Atualiza a barra de progresso customizada
+        vslVideo.addEventListener('timeupdate', function () {
+          if (vslVideo.duration) {
+            var pct = (vslVideo.currentTime / vslVideo.duration) * 100;
+            if (vslProgressBar) {
+              vslProgressBar.style.width = pct + '%';
+            }
+          }
+        });
+      }
+
+      window.vslClick = function () {
+        if (!vslVideo) return;
+
+        if (vslVideo.muted) {
+          // Caso esteja mudo (Primeiro clique): ativa som e reinicia do zero
+          vslVideo.muted = false;
+          vslVideo.currentTime = 0;
+          vslVideo.play().then(function () {
+            if (vslUnmuteBanner) vslUnmuteBanner.classList.add('hidden');
+            if (vslPlayOverlay) vslPlayOverlay.classList.remove('show');
+          });
+        } else {
+          // Caso já esteja com som: alterna play / pause
+          if (vslVideo.paused) {
+            vslVideo.play();
+            if (vslPlayOverlay) vslPlayOverlay.classList.remove('show');
+          } else {
+            vslVideo.pause();
+            if (vslPlayOverlay) vslPlayOverlay.classList.add('show');
+          }
+        }
+      };
+
+      // Volta o overlay se o vídeo terminar
+      if (vslVideo) {
+        vslVideo.addEventListener('ended', function () {
+          if (vslUnmuteBanner) vslUnmuteBanner.classList.remove('hidden');
+          vslVideo.muted = true;
+          if (vslPlayOverlay) vslPlayOverlay.classList.remove('show');
+        });
+      }
+
+      // ── Scroll reveal para demais seções (IntersectionObserver)
+      var srEls = document.querySelectorAll('.sr');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry, i) {
+          if (entry.isIntersecting) {
+            // Stagger baseado na posição dentro do pai
+            var siblings = Array.from(entry.target.parentNode.querySelectorAll('.sr'));
+            var idx = siblings.indexOf(entry.target);
+            var delay = idx * 80;
+            setTimeout(function () {
+              entry.target.classList.add('visible');
+            }, delay);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      srEls.forEach(function (el) { observer.observe(el); });
+
+      // ── CARROSSEL INTERATIVO (Sobre mim)
+      var currentSlide = 0;
+      var imgSlides = document.querySelectorAll('.carousel-image-slide');
+      var txtSlides = document.querySelectorAll('.carousel-text-slide');
+      var dots = document.querySelectorAll('.carousel-dot');
+      var totalSlides = txtSlides.length;
+
+      function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        if (index === currentSlide) return;
+
+        var prevIndex = currentSlide;
+        currentSlide = index;
+
+        // Atualiza Dots
+        dots.forEach(function (dot, i) {
+          dot.classList.toggle('active', i === currentSlide);
+        });
+
+        // Se o GSAP estiver disponível, faz animação premium
+        if (typeof gsap !== 'undefined') {
+          // Anima Imagem antiga (fades out and scales down slightly)
+          gsap.to(imgSlides[prevIndex], {
+            opacity: 0,
+            scale: 1.05,
+            duration: 0.5,
+            ease: 'power2.inOut',
+            onComplete: function () {
+              imgSlides[prevIndex].classList.remove('active');
+            }
+          });
+
+          // Anima Imagem nova (fades in and scales up to 1)
+          imgSlides[currentSlide].classList.add('active');
+          gsap.fromTo(imgSlides[currentSlide],
+            { opacity: 0, scale: 0.95 },
+            { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' }
+          );
+
+          // Anima Texto antigo (fades out and moves up)
+          gsap.to(txtSlides[prevIndex], {
+            opacity: 0,
+            y: -15,
+            duration: 0.3,
+            ease: 'power2.in',
+            onComplete: function () {
+              txtSlides[prevIndex].classList.remove('active');
+            }
+          });
+
+          // Anima Texto novo (fades in and moves up from bottom)
+          txtSlides[currentSlide].classList.add('active');
+          gsap.fromTo(txtSlides[currentSlide],
+            { opacity: 0, y: 15 },
+            { opacity: 1, y: 0, duration: 0.5, delay: 0.25, ease: 'back.out(1.2)' }
+          );
+        } else {
+          // Fallback sem GSAP (CSS puro)
+          imgSlides[prevIndex].classList.remove('active');
+          txtSlides[prevIndex].classList.remove('active');
+          imgSlides[currentSlide].classList.add('active');
+          txtSlides[currentSlide].classList.add('active');
+        }
+      }
+
+      // Event Listeners para botões
+      var prevBtn = document.getElementById('prevSlide');
+      var nextBtn = document.getElementById('nextSlide');
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function () {
+          goToSlide(currentSlide - 1);
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function () {
+          goToSlide(currentSlide + 1);
+        });
+      }
+
+      // Click nos dots
+      dots.forEach(function (dot) {
+        dot.addEventListener('click', function () {
+          var idx = parseInt(dot.getAttribute('data-index'), 10);
+          goToSlide(idx);
+        });
+      });
+
+      // Touch drag / swipe support for mobile
+      var startX = 0;
+      var endX = 0;
+      var carouselWrap = document.querySelector('.carousel-images-wrap');
+      var contentWrap = document.querySelector('.carousel-content-wrap');
+
+      function handleSwipe() {
+        var threshold = 40; // minimum distance to trigger swipe
+        if (startX - endX > threshold) {
+          // swiped left (next slide)
+          goToSlide(currentSlide + 1);
+        } else if (endX - startX > threshold) {
+          // swiped right (prev slide)
+          goToSlide(currentSlide - 1);
+        }
+      }
+
+      if (carouselWrap) {
+        carouselWrap.addEventListener('touchstart', function (e) {
+          startX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        carouselWrap.addEventListener('touchend', function (e) {
+          endX = e.changedTouches[0].screenX;
+          handleSwipe();
+        }, { passive: true });
+      }
+
+      if (contentWrap) {
+        contentWrap.addEventListener('touchstart', function (e) {
+          startX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        contentWrap.addEventListener('touchend', function (e) {
+          endX = e.changedTouches[0].screenX;
+          handleSwipe();
+        }, { passive: true });
+      }
+
+    });
+  </script>
+
+</body>
+
+</html>
