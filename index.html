@@ -3644,19 +3644,25 @@
       // ── Scroll reveal para demais seções (IntersectionObserver)
       var srEls = document.querySelectorAll('.sr');
       var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry, i) {
+        entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            // Stagger baseado na posição dentro do pai
-            var siblings = Array.from(entry.target.parentNode.querySelectorAll('.sr'));
-            var idx = siblings.indexOf(entry.target);
-            var delay = idx * 80;
+            var delay = 0;
+            var parent = entry.target.parentNode;
+            // Se não for filho direto do body e não for uma tag de seção, aplica stagger local
+            if (parent && parent !== document.body && entry.target.tagName !== 'SECTION') {
+              var siblings = Array.from(parent.querySelectorAll('.sr'));
+              var idx = siblings.indexOf(entry.target);
+              if (idx !== -1) {
+                delay = Math.min(idx * 50, 250); // Stagger rápido, máximo de 250ms
+              }
+            }
             setTimeout(function () {
               entry.target.classList.add('visible');
             }, delay);
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.12 });
+      }, { threshold: 0.02, rootMargin: '0px 0px -10px 0px' });
 
       srEls.forEach(function (el) { observer.observe(el); });
 
