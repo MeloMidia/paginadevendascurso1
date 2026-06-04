@@ -250,8 +250,8 @@
     /* ══ SCROLL REVEAL (seções) ══ */
     .sr {
       opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s var(--ease-spring), transform 0.7s var(--ease-spring);
+      transform: translateY(16px);
+      transition: opacity 0.45s var(--ease-spring), transform 0.45s var(--ease-spring);
     }
 
     .sr.visible {
@@ -1113,11 +1113,13 @@
         transform: scale(0.9);
         opacity: 0.6;
       }
+
       50% {
         transform: scale(1.1);
         opacity: 1;
         box-shadow: 0 0 12px rgba(255, 210, 52, 0.8);
       }
+
       100% {
         transform: scale(0.9);
         opacity: 0.6;
@@ -1128,9 +1130,11 @@
       0% {
         left: -60%;
       }
+
       25% {
         left: 140%;
       }
+
       100% {
         left: 140%;
       }
@@ -1148,7 +1152,7 @@
       flex-direction: column;
       gap: 32px;
       position: relative;
-      box-shadow: 
+      box-shadow:
         0 40px 100px -25px rgba(255, 210, 52, 0.08),
         0 4px 30px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -1157,7 +1161,7 @@
 
     .pricing-box:hover {
       border-color: rgba(255, 210, 52, 0.4);
-      box-shadow: 
+      box-shadow:
         0 40px 100px -20px rgba(255, 210, 52, 0.12),
         0 4px 35px rgba(0, 0, 0, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -1269,7 +1273,7 @@
       line-height: 1;
       letter-spacing: -0.03em;
     }
-    
+
     .pricing-box__installment small {
       font-size: 0.5em;
       font-weight: 700;
@@ -1314,12 +1318,10 @@
       left: -60%;
       width: 30%;
       height: 200%;
-      background: linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.3) 50%,
-        rgba(255, 255, 255, 0) 100%
-      );
+      background: linear-gradient(to right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.3) 50%,
+          rgba(255, 255, 255, 0) 100%);
       transform: rotate(30deg);
       animation: shimmer-swipe 4s infinite ease-in-out;
     }
@@ -1417,7 +1419,7 @@
       fill: var(--c-muted);
       transition: fill 0.3s ease;
     }
-    
+
     .payment-icons svg:hover {
       fill: var(--c-gold);
     }
@@ -1667,50 +1669,36 @@
       flex-direction: column;
     }
 
-    .testi-vsl__unmute-banner {
+    .testi-vsl__mute-indicator {
       position: absolute;
-      inset: 0;
-      background: rgba(7, 7, 12, 0.4);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      bottom: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(7, 7, 12, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #FFF;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 4;
-      transition: opacity 350ms ease, visibility 350ms ease;
-      text-align: center;
-      padding: 16px;
+      cursor: pointer;
+      z-index: 5;
+      transition: all 250ms ease;
     }
 
-    .testi-vsl__unmute-banner.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .testi-vsl__unmute-btn {
+    .testi-vsl__mute-indicator:hover {
       background: var(--c-gold);
       color: #07070C;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 99px;
-      font-size: 11px;
-      font-weight: 800;
-      font-family: inherit;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 0 20px var(--c-gold-glow);
-      animation: pulse-gold 2s infinite ease-in-out;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      border-color: var(--c-gold);
+      transform: scale(1.05);
     }
 
-    .testi-vsl__unmute-btn svg {
-      width: 14px;
-      height: 14px;
+    .testi-vsl__mute-indicator svg {
+      width: 16px;
+      height: 16px;
       fill: currentColor;
     }
 
@@ -2279,12 +2267,31 @@
     }
 
     /* ── SEÇÃO: A OPERAÇÃO MELO AUTOPEÇAS ── */
+    .melo-operation-section {
+      background: #0B0B12;
+      padding: clamp(64px, 10vw, 96px) 0;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .melo-operation-section::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 10%;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(255, 210, 52, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
     .melo-operation {
       display: flex;
       flex-direction: column;
       gap: clamp(32px, 6vw, 48px);
       width: 100%;
-      margin-top: 48px;
+      margin-top: 0;
     }
 
     .melo-operation__grid {
@@ -2342,6 +2349,11 @@
       font-size: clamp(0.88rem, 2vw, 0.98rem);
       color: var(--c-muted);
       line-height: 1.65;
+    }
+
+    .melo-operation__desc strong {
+      color: var(--c-gold);
+      font-weight: 700;
     }
 
     .melo-operation__points {
@@ -2407,6 +2419,7 @@
     }
 
     .melo-card {
+      position: relative;
       background: rgba(255, 255, 255, 0.01);
       border: 1px solid rgba(255, 255, 255, 0.04);
       border-radius: 16px;
@@ -2446,7 +2459,7 @@
     .melo-card__overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.1) 60%, transparent 100%);
       z-index: 2;
     }
 
@@ -2510,12 +2523,196 @@
         grid-template-columns: 1fr;
         gap: 24px;
       }
+
       .melo-card--tall {
         grid-row: span 1;
       }
+
       .melo-card--tall .melo-card__img-wrap {
         height: 280px;
       }
+    }
+    /* ── SEÇÃO SUPORTE ── */
+    .support-section {
+      padding: clamp(60px, 8vw, 100px) 24px;
+      position: relative;
+      background: linear-gradient(to bottom, #07070C 0%, #0a0a14 100%);
+      overflow: hidden;
+    }
+
+    .support-section::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 210, 52, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .support-container {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .support-header {
+      text-align: center;
+      margin-bottom: clamp(40px, 6vw, 60px);
+    }
+
+    .support-title {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      color: #FFF;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .support-title em {
+      font-style: normal;
+      color: var(--c-gold);
+      background: linear-gradient(135deg, #FFF5C2 0%, var(--c-gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .support-subtitle {
+      font-size: clamp(15px, 2vw, 17px);
+      color: var(--c-muted);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+
+    @media (max-width: 768px) {
+      .support-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+
+    .support-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+      padding: clamp(32px, 5vw, 48px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 300ms var(--ease-spring);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .support-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+    }
+
+    .support-card--whatsapp:hover {
+      border-color: rgba(37, 211, 102, 0.25);
+      box-shadow: 0 24px 48px rgba(37, 211, 102, 0.03);
+    }
+
+    .support-card--instagram:hover {
+      border-color: rgba(225, 48, 108, 0.25);
+      box-shadow: 0 24px 48px rgba(225, 48, 108, 0.03);
+    }
+
+    .support-icon-wrap {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      transition: transform 300ms ease;
+    }
+
+    .support-card:hover .support-icon-wrap {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .support-icon-wrap--whatsapp {
+      background: rgba(37, 211, 102, 0.08);
+      color: #25D366;
+      border: 1px solid rgba(37, 211, 102, 0.15);
+    }
+
+    .support-icon-wrap--instagram {
+      background: rgba(225, 48, 108, 0.08);
+      color: #E1306C;
+      border: 1px solid rgba(225, 48, 108, 0.15);
+    }
+
+    .support-card__title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #FFF;
+      margin-bottom: 12px;
+    }
+
+    .support-card__desc {
+      font-size: 15px;
+      color: var(--c-muted);
+      line-height: 1.6;
+      margin-bottom: 32px;
+      flex-grow: 1;
+      max-width: 320px;
+    }
+
+    .support-btn {
+      width: 100%;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 250ms ease;
+      cursor: pointer;
+    }
+
+    .support-btn--whatsapp {
+      background: #25D366;
+      color: #07070C;
+    }
+
+    .support-btn--whatsapp:hover {
+      background: #20ba59;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.2);
+    }
+
+    .support-btn--instagram {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #FFF;
+    }
+
+    .support-btn--instagram:hover {
+      background: #FFF;
+      color: #07070C;
+      border-color: #FFF;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
     }
   </style>
 </head>
@@ -3044,108 +3241,8 @@
         </div>
       </div>
 
-      <!-- Melo Autopeças Showcase (Operação Real & Prova Concreta) -->
-      <div class="melo-operation">
-        <div class="melo-operation__grid">
-          
-          <div class="melo-operation__info">
-            <div class="melo-operation__brand">
-              <img class="melo-operation__logo-img" src="imgs/MeloAutopeçaLogo.jpeg" alt="Melo Autopeças Logo">
-              <div>
-                <span class="melo-operation__eyebrow">Operação Própria</span>
-                <h3 class="melo-operation__title">Melo Autopeças</h3>
-              </div>
-            </div>
-
-            <p class="melo-operation__desc">
-              Diferente de cursos ministrados por teóricos que nunca enviaram uma única caixa pelos correios, nossa metodologia nasceu e é aprimorada diariamente dentro do centro de distribuição da <strong>Melo Autopeças</strong>.
-            </p>
-
-            <div class="melo-operation__points">
-              <!-- Point 1 -->
-              <div class="melo-point">
-                <div class="melo-point__icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 5 12"></polyline>
-                  </svg>
-                </div>
-                <div class="melo-point__text">
-                  <strong>CD de Distribuição Próprio:</strong> Estrutura física real com milhares de itens em estoque, responsável pela separação e expedição diária de autopeças.
-                </div>
-              </div>
-              <!-- Point 2 -->
-              <div class="melo-point">
-                <div class="melo-point__icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 5 12"></polyline>
-                  </svg>
-                </div>
-                <div class="melo-point__text">
-                  <strong>Faturamento Comprovado:</strong> Múltiplos 6 dígitos mensais em vendas líquidas, atuando como MercadoLíder Platinum com reputação impecável na plataforma.
-                </div>
-              </div>
-              <!-- Point 3 -->
-              <div class="melo-point">
-                <div class="melo-point__icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 5 12"></polyline>
-                  </svg>
-                </div>
-                <div class="melo-point__text">
-                  <strong>Método Sempre Atualizado:</strong> Como nossa operação está no ar hoje, qualquer mudança de algoritmo no Mercado Livre é testada e atualizada no curso em tempo real.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Column 2: Dashboard and Warehouse Grid Showcase -->
-          <div class="melo-operation__visuals">
-            
-            <!-- Card 1: Warehouse Stock (Tall) -->
-            <div class="melo-card melo-card--tall">
-              <span class="melo-card__badge">Estoque Físico</span>
-              <div class="melo-card__img-wrap">
-                <img src="imgs/MeloAutopeçaEstoque.jpeg" alt="Estoque Real Melo Autopeças">
-                <div class="melo-card__overlay"></div>
-              </div>
-              <div class="melo-card__info">
-                <h4 class="melo-card__title">Nossa expedição real: <span>onde a teoria se torna prática diária</span>.</h4>
-              </div>
-            </div>
-
-            <!-- Card 2: ML Dashboard Monthly -->
-            <div class="melo-card">
-              <span class="melo-card__badge">Faturamento Mensal</span>
-              <div class="melo-card__img-wrap">
-                <img src="imgs/meloAutoPeçaDashboardMercadoLivre.png" alt="Mercado Livre Dashboard Faturamento">
-                <div class="melo-card__overlay"></div>
-              </div>
-              <div class="melo-card__info">
-                <h4 class="melo-card__title">Loja Principal: <span>R$ 194.308,00 em 30 dias</span> no Mercado Livre.</h4>
-              </div>
-            </div>
-
-            <!-- Card 3: ML Dashboard Live Laptop -->
-            <div class="melo-card">
-              <span class="melo-card__badge melo-card__badge--live">Painel ao Vivo</span>
-              <div class="melo-card__img-wrap">
-                <img src="imgs/meloautopeçasPainelDeVendas.jpeg" alt="Painel ao Vivo Notebook Vendas">
-                <div class="melo-card__overlay"></div>
-              </div>
-              <div class="melo-card__info">
-                <h4 class="melo-card__title">Ritmo de Escala: <span>Mais de R$ 12.300,00</span> faturados em um dia comum.</h4>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
     </div>
   </section>
-
-
 
   <!-- ══════════════════════════════════════
        SEÇÃO: DEPOIMENTOS (PROVA SOCIAL)
@@ -3170,16 +3267,14 @@
                 <video id="testiVslVideo" class="testimonial-video" src="imgs/depoimentoVideo_optimized.mp4" autoplay
                   muted loop playsinline preload="auto"></video>
 
-                <!-- Unmute Banner overlay -->
-                <div class="testi-vsl__unmute-banner" id="testiVslUnmuteBanner">
-                  <button class="testi-vsl__unmute-btn">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-                    </svg>
-                    Ouvir depoimento
-                  </button>
-                </div>
+                <!-- Floating Mute/Unmute Indicator -->
+                <button class="testi-vsl__mute-indicator" id="testiVslMuteIndicator" aria-label="Ativar som">
+                  <svg id="testiVslMuteIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                    <!-- Muted Icon by default -->
+                    <path
+                      d="M3.27 3L2 4.27l5 5V15h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 3.27 3zM12 4L9.91 6.09 12 8.18V4zm4.5 8c0-.94-.3-1.81-.8-2.52l1.47-1.47C17.79 9.14 18.5 10.49 18.5 12c0 2.25-1.48 4.14-3.5 4.79v-2.06c1.12-.53 2-1.67 2-2.73z" />
+                  </svg>
+                </button>
 
                 <!-- Central Play button overlay -->
                 <div class="testi-vsl__play-overlay" id="testiVslPlayOverlay">
@@ -3193,6 +3288,40 @@
                 <!-- Progress bar -->
                 <div class="testi-vsl__progress-container">
                   <div class="testi-vsl__progress-bar" id="testiVslProgressBar"></div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Depoimento Vídeo (Segundo) -->
+            <div class="testimonial-slide testimonial-img-wrapper testimonial-vsl-wrap">
+              <div class="testimonial-vsl" id="testiVsl2" onclick="testiVslClick2()">
+
+                <video id="testiVslVideo2" class="testimonial-video" src="imgs/videoDepoimento02_optimized.mp4" autoplay
+                  muted loop playsinline preload="auto" style="object-fit: contain;"></video>
+
+                <!-- Floating Mute/Unmute Indicator -->
+                <button class="testi-vsl__mute-indicator" id="testiVslMuteIndicator2" aria-label="Ativar som">
+                  <svg id="testiVslMuteIcon2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor">
+                    <!-- Muted Icon by default -->
+                    <path
+                      d="M3.27 3L2 4.27l5 5V15h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 3.27 3zM12 4L9.91 6.09 12 8.18V4zm4.5 8c0-.94-.3-1.81-.8-2.52l1.47-1.47C17.79 9.14 18.5 10.49 18.5 12c0 2.25-1.48 4.14-3.5 4.79v-2.06c1.12-.53 2-1.67 2-2.73z" />
+                  </svg>
+                </button>
+
+                <!-- Central Play button overlay -->
+                <div class="testi-vsl__play-overlay" id="testiVslPlayOverlay2">
+                  <div class="testi-vsl__play-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Progress bar -->
+                <div class="testi-vsl__progress-container">
+                  <div class="testi-vsl__progress-bar" id="testiVslProgressBar2"></div>
                 </div>
 
               </div>
@@ -3218,6 +3347,12 @@
               <img class="testimonial-img" src="imgs/depoimento04.jpeg" alt="Depoimento Real 4" loading="lazy">
             </div>
 
+            <!-- Depoimento 5 (Novo) -->
+            <div class="testimonial-slide">
+              <img src="imgs/depoimento07.jpg" alt="Depoimento Real 5" loading="lazy"
+                style="width: 100%; height: auto; border-radius: 12px; display: block;">
+            </div>
+
           </div>
         </div>
 
@@ -3240,6 +3375,121 @@
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════
+       SEÇÃO: A OPERAÇÃO MELO AUTOPEÇAS
+  ══════════════════════════════════════ -->
+  <section class="melo-operation-section sr">
+    <div class="about__inner">
+
+      <!-- Melo Autopeças Showcase (Operação Real & Prova Concreta) -->
+      <div class="melo-operation">
+        <div class="melo-operation__grid">
+
+          <div class="melo-operation__info">
+            <div class="melo-operation__brand">
+              <img class="melo-operation__logo-img" src="imgs/MeloAutopeçaLogo.jpeg" alt="Melo Autopeças Logo">
+              <div>
+                <span class="melo-operation__eyebrow">Operação Própria</span>
+                <h3 class="melo-operation__title">Melo Autopeças</h3>
+              </div>
+            </div>
+
+            <p class="melo-operation__desc">
+              Aqui não somos <strong>GURU</strong> de internet, entregamos serviço de <strong>VERDADE E DE QUALIDADE</strong>. Nossa metodologia nasceu e é validada diariamente dentro do nosso centro de distribuição.
+            </p>
+
+            <div class="melo-operation__points">
+              <!-- Point 1 -->
+              <div class="melo-point">
+                <div class="melo-point__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <polyline points="20 6 9 17 5 12"></polyline>
+                  </svg>
+                </div>
+                <div class="melo-point__text">
+                  <strong>CD de Distribuição Próprio:</strong> Estrutura física real com milhares de itens em estoque,
+                  responsável pela separação e expedição diária de autopeças.
+                </div>
+              </div>
+              <!-- Point 2 -->
+              <div class="melo-point">
+                <div class="melo-point__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <polyline points="20 6 9 17 5 12"></polyline>
+                  </svg>
+                </div>
+                <div class="melo-point__text">
+                  <strong>Faturamento Comprovado:</strong> Múltiplos 6 dígitos mensais em vendas líquidas, atuando como
+                  MercadoLíder Platinum com reputação impecável na plataforma.
+                </div>
+              </div>
+              <!-- Point 3 -->
+              <div class="melo-point">
+                <div class="melo-point__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <polyline points="20 6 9 17 5 12"></polyline>
+                  </svg>
+                </div>
+                <div class="melo-point__text">
+                  <strong>Método Sempre Atualizado:</strong> Como nossa operação está no ar hoje, qualquer mudança de
+                  algoritmo no Mercado Livre é testada e atualizada no curso em tempo real.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Dashboard and Warehouse Grid Showcase -->
+          <div class="melo-operation__visuals">
+
+            <!-- Card 1: Warehouse Stock (Tall) -->
+            <div class="melo-card melo-card--tall">
+              <span class="melo-card__badge">Estoque Físico</span>
+              <div class="melo-card__img-wrap">
+                <img src="imgs/MeloAutopeçaEstoque.jpeg" alt="Estoque Real Melo Autopeças">
+                <div class="melo-card__overlay"></div>
+              </div>
+              <div class="melo-card__info">
+                <h4 class="melo-card__title">Nossa autopeça real: <span>onde a teoria se torna prática diária</span>.
+                </h4>
+              </div>
+            </div>
+
+            <!-- Card 2: ML Dashboard Monthly -->
+            <div class="melo-card">
+              <span class="melo-card__badge">Faturamento Mensal</span>
+              <div class="melo-card__img-wrap">
+                <img src="imgs/meloAutoPeçaDashboardMercadoLivre.png" alt="Mercado Livre Dashboard Faturamento">
+                <div class="melo-card__overlay"></div>
+              </div>
+              <div class="melo-card__info">
+                <h4 class="melo-card__title">Melo autopeças: <span>R$ 194.308,00 em 30 dias</span> no Mercado Livre.
+                </h4>
+              </div>
+            </div>
+
+            <!-- Card 3: ML Dashboard Live Laptop -->
+            <div class="melo-card">
+              <span class="melo-card__badge melo-card__badge--live">Painel ao Vivo</span>
+              <div class="melo-card__img-wrap">
+                <img src="imgs/meloautopeçasPainelDeVendas.jpeg" alt="Painel ao Vivo Notebook Vendas">
+                <div class="melo-card__overlay"></div>
+              </div>
+              <div class="melo-card__info">
+                <h4 class="melo-card__title">Ritmo de Escala: <span>Mais de R$ 12.300,00</span> faturados em um dia
+                  comum.</h4>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="pricing sr" id="pricing">
     <div class="pricing__inner">
 
@@ -3257,7 +3507,8 @@
         <h3 class="pricing-box__title">Método Autopeças no Mercado Livre</h3>
         <span class="pricing-box__sub-title">Treinamento Completo + Bônus</span>
 
-        <p class="pricing-box__old-price">De <span>R$ 497,00</span> por apenas <span class="pricing-box__discount-badge">Economize R$ 300</span></p>
+        <p class="pricing-box__old-price">De <span>R$ 497,00</span> por apenas <span
+            class="pricing-box__discount-badge">Economize R$ 300</span></p>
 
         <div class="pricing-box__price-block">
           <span class="pricing-box__installment"><small>12x de</small>R$ 19,70</span>
@@ -3276,8 +3527,8 @@
         <div class="pricing-box__features">
           <div class="pricing-feature">
             <div class="pricing-feature__icon-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round">
                 <path d="M20 6L9 17l-5-5" />
               </svg>
             </div>
@@ -3285,8 +3536,8 @@
           </div>
           <div class="pricing-feature">
             <div class="pricing-feature__icon-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round">
                 <path d="M20 6L9 17l-5-5" />
               </svg>
             </div>
@@ -3294,8 +3545,8 @@
           </div>
           <div class="pricing-feature">
             <div class="pricing-feature__icon-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round">
                 <path d="M20 6L9 17l-5-5" />
               </svg>
             </div>
@@ -3303,8 +3554,8 @@
           </div>
           <div class="pricing-feature">
             <div class="pricing-feature__icon-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round">
                 <path d="M20 6L9 17l-5-5" />
               </svg>
             </div>
@@ -3548,6 +3799,64 @@
   </section>
 
   <!-- ══════════════════════════════════════
+       SEÇÃO: SUPORTE E CONTATO
+  ══════════════════════════════════════ -->
+  <section class="support-section sr" id="support">
+    <div class="support-container">
+
+      <div class="support-header">
+        <h2 class="support-title">Ainda tem alguma <em>dúvida?</em></h2>
+        <p class="support-subtitle">
+          Fale diretamente conosco ou nos acompanhe nas redes sociais. Estamos prontos para te ajudar!
+        </p>
+      </div>
+
+      <div class="support-grid">
+
+        <!-- Card WhatsApp -->
+        <div class="support-card support-card--whatsapp">
+          <div class="support-icon-wrap support-icon-wrap--whatsapp">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.66.986 3.287 1.487 4.908 1.488 5.344 0 9.7-4.35 9.703-9.686.002-2.585-1.002-5.016-2.83-6.848-1.829-1.83-4.258-2.835-6.843-2.836-5.348 0-9.704 4.352-9.707 9.688a9.584 9.584 0 0 0 1.547 5.176l-.997 3.637 3.73-.977zm11.398-6.828c-.287-.144-1.702-.84-1.965-.936-.264-.096-.456-.144-.648.144-.192.288-.744.936-.912 1.128-.168.192-.336.216-.624.072-2.825-1.415-4.607-3.413-5.404-4.786-.21-.362.21-.336.6-.112.35.202.82.97.915 1.156.096.192.048.36-.024.504-.072.144-.648 1.56-.792 1.902-.14.336-.282.288-.475.192-.193-.096-.813-.299-1.547-.954-.572-.51-1.006-1.14-1.127-1.348-.12-.208-.013-.32.083-.416.086-.086.208-.24.312-.36.104-.12.14-.204.208-.344.068-.14.034-.264-.017-.36-.051-.096-.456-1.099-.624-1.503-.164-.396-.344-.342-.475-.349-.12-.006-.264-.007-.407-.007s-.384.054-.585.276c-.2.222-.765.748-.765 1.824 0 1.077.783 2.115.891 2.262.11.147 1.542 2.355 3.735 3.301.52.225.928.36 1.246.462.523.167.999.143 1.376.088.42-.062 1.702-.696 1.942-1.368.24-.672.24-1.248.168-1.368-.072-.12-.264-.192-.552-.336z"/>
+            </svg>
+          </div>
+          <h3 class="support-card__title">Suporte via WhatsApp</h3>
+          <p class="support-card__desc">
+            Clique abaixo para falar diretamente com nosso atendimento e tirar suas dúvidas sobre o treinamento.
+          </p>
+          <a href="https://wa.me/5562996914244?text=Tenho%20duvidas%20sobre%20o%20curso" target="_blank" rel="noopener" class="support-btn support-btn--whatsapp">
+            Chamar no WhatsApp
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Card Instagram -->
+        <div class="support-card support-card--instagram">
+          <div class="support-icon-wrap support-icon-wrap--instagram">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+            </svg>
+          </div>
+          <h3 class="support-card__title">Nosso Instagram</h3>
+          <p class="support-card__desc">
+            Siga-nos no Instagram para acompanhar conteúdos exclusivos, dicas de Mercado Livre e novidades da Melo Mídia.
+          </p>
+          <a href="https://www.instagram.com/_melomidia/" target="_blank" rel="noopener" class="support-btn support-btn--instagram">
+            Acessar Instagram
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
        RODAPÉ (FOOTER)
   ══════════════════════════════════════ -->
   <footer class="footer">
@@ -3643,26 +3952,33 @@
 
       // ── Scroll reveal para demais seções (IntersectionObserver)
       var srEls = document.querySelectorAll('.sr');
+      var intersectingQueue = [];
+      var staggerTimeout;
       var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            var delay = 0;
-            var parent = entry.target.parentNode;
-            // Se não for filho direto do body e não for uma tag de seção, aplica stagger local
-            if (parent && parent !== document.body && entry.target.tagName !== 'SECTION') {
-              var siblings = Array.from(parent.querySelectorAll('.sr'));
-              var idx = siblings.indexOf(entry.target);
-              if (idx !== -1) {
-                delay = Math.min(idx * 50, 250); // Stagger rápido, máximo de 250ms
-              }
-            }
-            setTimeout(function () {
-              entry.target.classList.add('visible');
-            }, delay);
+            intersectingQueue.push(entry.target);
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.02, rootMargin: '0px 0px -10px 0px' });
+
+        if (intersectingQueue.length > 0) {
+          clearTimeout(staggerTimeout);
+          staggerTimeout = setTimeout(function () {
+            // Ordena os elementos pela posição no documento para garantir a ordem de stagger (de cima para baixo)
+            intersectingQueue.sort(function (a, b) {
+              return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+            });
+
+            intersectingQueue.forEach(function (el, index) {
+              setTimeout(function () {
+                el.classList.add('visible');
+              }, index * 60); // Stagger rápido de 60ms para itens que entram juntos
+            });
+            intersectingQueue = [];
+          }, 16); // Executa no próximo frame para agrupar interseções simultâneas
+        }
+      }, { threshold: 0.01, rootMargin: '0px 0px 80px 0px' });
 
       srEls.forEach(function (el) { observer.observe(el); });
 
@@ -3716,15 +4032,44 @@
 
       // ── Testimonial VSL Player Logic
       var testiVslVideo = document.getElementById('testiVslVideo');
-      var testiVslUnmuteBanner = document.getElementById('testiVslUnmuteBanner');
+      var testiVslMuteIndicator = document.getElementById('testiVslMuteIndicator');
+      var testiVslMuteIcon = document.getElementById('testiVslMuteIcon');
       var testiVslPlayOverlay = document.getElementById('testiVslPlayOverlay');
       var testiVslProgressBar = document.getElementById('testiVslProgressBar');
 
+      var testiVslVideo2 = document.getElementById('testiVslVideo2');
+      var testiVslMuteIndicator2 = document.getElementById('testiVslMuteIndicator2');
+      var testiVslMuteIcon2 = document.getElementById('testiVslMuteIcon2');
+      var testiVslPlayOverlay2 = document.getElementById('testiVslPlayOverlay2');
+      var testiVslProgressBar2 = document.getElementById('testiVslProgressBar2');
+
+      // Funções auxiliares para atualizar os ícones de mudo
+      function updateTestiMuteIcon() {
+        if (!testiVslVideo || !testiVslMuteIcon) return;
+        if (testiVslVideo.muted) {
+          testiVslMuteIcon.innerHTML = '<path d="M3.27 3L2 4.27l5 5V15h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 3.27 3zM12 4L9.91 6.09 12 8.18V4zm4.5 8c0-.94-.3-1.81-.8-2.52l1.47-1.47C17.79 9.14 18.5 10.49 18.5 12c0 2.25-1.48 4.14-3.5 4.79v-2.06c1.12-.53 2-1.67 2-2.73z" />';
+          if (testiVslMuteIndicator) testiVslMuteIndicator.setAttribute('aria-label', 'Ativar som');
+        } else {
+          testiVslMuteIcon.innerHTML = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />';
+          if (testiVslMuteIndicator) testiVslMuteIndicator.setAttribute('aria-label', 'Mutar');
+        }
+      }
+
+      function updateTestiMuteIcon2() {
+        if (!testiVslVideo2 || !testiVslMuteIcon2) return;
+        if (testiVslVideo2.muted) {
+          testiVslMuteIcon2.innerHTML = '<path d="M3.27 3L2 4.27l5 5V15h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 3.27 3zM12 4L9.91 6.09 12 8.18V4zm4.5 8c0-.94-.3-1.81-.8-2.52l1.47-1.47C17.79 9.14 18.5 10.49 18.5 12c0 2.25-1.48 4.14-3.5 4.79v-2.06c1.12-.53 2-1.67 2-2.73z" />';
+          if (testiVslMuteIndicator2) testiVslMuteIndicator2.setAttribute('aria-label', 'Ativar som');
+        } else {
+          testiVslMuteIcon2.innerHTML = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />';
+          if (testiVslMuteIndicator2) testiVslMuteIndicator2.setAttribute('aria-label', 'Mutar');
+        }
+      }
+
+      // Inicializa Vídeo 1
       if (testiVslVideo) {
-        testiVslVideo.muted = true;
-        testiVslVideo.play().catch(function () {
-          // Autoplay blocked fallback
-        });
+        testiVslVideo.muted = false;
+        updateTestiMuteIcon();
 
         testiVslVideo.addEventListener('timeupdate', function () {
           if (testiVslVideo.duration) {
@@ -3734,17 +4079,68 @@
             }
           }
         });
+
+        testiVslVideo.addEventListener('ended', function () {
+          testiVslVideo.muted = true;
+          updateTestiMuteIcon();
+          if (testiVslPlayOverlay) testiVslPlayOverlay.classList.remove('show');
+        });
       }
 
+      // Inicializa Vídeo 2
+      if (testiVslVideo2) {
+        testiVslVideo2.muted = false;
+        updateTestiMuteIcon2();
+
+        testiVslVideo2.addEventListener('timeupdate', function () {
+          if (testiVslVideo2.duration) {
+            var pct = (testiVslVideo2.currentTime / testiVslVideo2.duration) * 100;
+            if (testiVslProgressBar2) {
+              testiVslProgressBar2.style.width = pct + '%';
+            }
+          }
+        });
+
+        testiVslVideo2.addEventListener('ended', function () {
+          testiVslVideo2.muted = true;
+          updateTestiMuteIcon2();
+          if (testiVslPlayOverlay2) testiVslPlayOverlay2.classList.remove('show');
+        });
+      }
+
+      // Captura qualquer interação inicial na página para ativar o som dos vídeos de depoimento.
+      function enableTestiAudioOnInteraction() {
+        if (testiVslVideo && testiVslVideo.muted) {
+          testiVslVideo.muted = false;
+          updateTestiMuteIcon();
+          if (typeof currentIndex !== 'undefined' && currentIndex === 0 && testiVslVideo.paused) {
+            testiVslVideo.play().catch(function () { });
+          }
+        }
+        if (testiVslVideo2 && testiVslVideo2.muted) {
+          testiVslVideo2.muted = false;
+          updateTestiMuteIcon2();
+          if (typeof currentIndex !== 'undefined' && currentIndex === 1 && testiVslVideo2.paused) {
+            testiVslVideo2.play().catch(function () { });
+          }
+        }
+        document.removeEventListener('click', enableTestiAudioOnInteraction);
+        document.removeEventListener('touchstart', enableTestiAudioOnInteraction);
+        document.removeEventListener('keydown', enableTestiAudioOnInteraction);
+      }
+      document.addEventListener('click', enableTestiAudioOnInteraction);
+      document.addEventListener('touchstart', enableTestiAudioOnInteraction, { passive: true });
+      document.addEventListener('keydown', enableTestiAudioOnInteraction);
+
+      // Controle de clique Play/Pause do Vídeo 1
       window.testiVslClick = function () {
         if (!testiVslVideo) return;
-
         if (testiVslVideo.muted) {
           testiVslVideo.muted = false;
           testiVslVideo.currentTime = 0;
           testiVslVideo.play().then(function () {
-            if (testiVslUnmuteBanner) testiVslUnmuteBanner.classList.add('hidden');
             if (testiVslPlayOverlay) testiVslPlayOverlay.classList.remove('show');
+            updateTestiMuteIcon();
           });
         } else {
           if (testiVslVideo.paused) {
@@ -3757,12 +4153,82 @@
         }
       };
 
-      if (testiVslVideo) {
-        testiVslVideo.addEventListener('ended', function () {
-          if (testiVslUnmuteBanner) testiVslUnmuteBanner.classList.remove('hidden');
-          testiVslVideo.muted = true;
-          if (testiVslPlayOverlay) testiVslPlayOverlay.classList.remove('show');
+      // Controle de clique Play/Pause do Vídeo 2
+      window.testiVslClick2 = function () {
+        if (!testiVslVideo2) return;
+        if (testiVslVideo2.muted) {
+          testiVslVideo2.muted = false;
+          testiVslVideo2.currentTime = 0;
+          testiVslVideo2.play().then(function () {
+            if (testiVslPlayOverlay2) testiVslPlayOverlay2.classList.remove('show');
+            updateTestiMuteIcon2();
+          });
+        } else {
+          if (testiVslVideo2.paused) {
+            testiVslVideo2.play();
+            if (testiVslPlayOverlay2) testiVslPlayOverlay2.classList.remove('show');
+          } else {
+            testiVslVideo2.pause();
+            if (testiVslPlayOverlay2) testiVslPlayOverlay2.classList.add('show');
+          }
+        }
+      };
+
+      // Listeners dos botões de Mute
+      if (testiVslMuteIndicator) {
+        testiVslMuteIndicator.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (!testiVslVideo) return;
+          testiVslVideo.muted = !testiVslVideo.muted;
+          updateTestiMuteIcon();
         });
+      }
+
+      if (testiVslMuteIndicator2) {
+        testiVslMuteIndicator2.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (!testiVslVideo2) return;
+          testiVslVideo2.muted = !testiVslVideo2.muted;
+          updateTestiMuteIcon2();
+        });
+      }
+
+      // Autoplay/Pause inteligente por scroll quando a seção chega na tela
+      if ('IntersectionObserver' in window) {
+        var videoObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            var targetVideo = entry.target;
+            var isVideo1 = targetVideo.id === 'testiVslVideo';
+            var isVideo2 = targetVideo.id === 'testiVslVideo2';
+            var activeIdx = isVideo1 ? 0 : 1;
+
+            if (entry.isIntersecting) {
+              if (typeof currentIndex !== 'undefined' && currentIndex === activeIdx) {
+                targetVideo.muted = false;
+                if (isVideo1) updateTestiMuteIcon();
+                if (isVideo2) updateTestiMuteIcon2();
+                targetVideo.play().catch(function (err) {
+                  targetVideo.muted = true;
+                  if (isVideo1) updateTestiMuteIcon();
+                  if (isVideo2) updateTestiMuteIcon2();
+                  targetVideo.play().catch(function () { });
+                });
+              } else {
+                targetVideo.muted = true;
+                targetVideo.pause();
+                if (isVideo1) updateTestiMuteIcon();
+                if (isVideo2) updateTestiMuteIcon2();
+              }
+            } else {
+              targetVideo.pause();
+            }
+          });
+        }, { threshold: 0.1 });
+        if (testiVslVideo) videoObserver.observe(testiVslVideo);
+        if (testiVslVideo2) videoObserver.observe(testiVslVideo2);
+      } else {
+        if (testiVslVideo) testiVslVideo.play().catch(function () { });
+        if (testiVslVideo2) testiVslVideo2.play().catch(function () { });
       }
 
       // ── Testimonials Carousel Script
@@ -3838,6 +4304,44 @@
             nextBtn.style.opacity = currentIndex === maxIndex ? '0.3' : '1';
             nextBtn.style.pointerEvents = currentIndex === maxIndex ? 'none' : 'auto';
           }
+
+          // Controle do primeiro vídeo de depoimento ao passar o carrossel
+          if (testiVslVideo) {
+            if (currentIndex === 0) {
+              // Retornou ao primeiro vídeo: ativa o áudio, atualiza o ícone e tenta dar play se visível
+              testiVslVideo.muted = false;
+              updateTestiMuteIcon();
+              var rect = testiVslVideo.getBoundingClientRect();
+              var isVisible = (rect.top < window.innerHeight && rect.bottom > 0);
+              if (isVisible) {
+                testiVslVideo.play().catch(function () { });
+              }
+            } else {
+              // Passou do slide do vídeo 1: muta, pausa e atualiza o ícone de mute
+              testiVslVideo.muted = true;
+              testiVslVideo.pause();
+              updateTestiMuteIcon();
+            }
+          }
+
+          // Controle do segundo vídeo de depoimento ao passar o carrossel
+          if (testiVslVideo2) {
+            if (currentIndex === 1) {
+              // Retornou ao segundo vídeo: ativa o áudio, atualiza o ícone e tenta dar play se visível
+              testiVslVideo2.muted = false;
+              updateTestiMuteIcon2();
+              var rect = testiVslVideo2.getBoundingClientRect();
+              var isVisible = (rect.top < window.innerHeight && rect.bottom > 0);
+              if (isVisible) {
+                testiVslVideo2.play().catch(function () { });
+              }
+            } else {
+              // Passou do slide do vídeo 2: muta, pausa e atualiza o ícone de mute
+              testiVslVideo2.muted = true;
+              testiVslVideo2.pause();
+              updateTestiMuteIcon2();
+            }
+          }
         }
 
         if (prevBtn) {
@@ -3865,31 +4369,91 @@
         updateDots();
         goToSlide(0);
 
-        // Add Swipe Support for Mobile
+        // Suporte a swipe suave e arrastável para mobile (estilo Instagram)
         var startX = 0;
-        var currentX = 0;
+        var startY = 0;
+        var diffX = 0;
         var isDragging = false;
+        var isScrolling = false;
+        var currentOffset = 0;
 
         carouselTrack.addEventListener('touchstart', function (e) {
-          startX = e.touches[0].clientX;
-          isDragging = true;
+          var touch = e.touches[0];
+          startX = touch.clientX;
+          startY = touch.clientY;
+          diffX = 0;
+          isDragging = false;
+          isScrolling = false;
+
+          var currentSlideEl = carouselSlides[currentIndex];
+          if (currentSlideEl) {
+            currentOffset = -currentSlideEl.offsetLeft;
+          } else {
+            currentOffset = 0;
+          }
+
+          // Desativa a transição CSS para que o arrastar siga o dedo instantaneamente
+          carouselTrack.style.transition = 'none';
         }, { passive: true });
 
         carouselTrack.addEventListener('touchmove', function (e) {
-          if (!isDragging) return;
-          currentX = e.touches[0].clientX;
-        }, { passive: true });
+          if (isScrolling) return;
 
-        carouselTrack.addEventListener('touchend', function () {
-          if (!isDragging) return;
-          isDragging = false;
-          var diff = startX - currentX;
-          if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-              goToSlide(currentIndex + 1);
-            } else {
-              goToSlide(currentIndex - 1);
+          var touch = e.touches[0];
+          diffX = touch.clientX - startX;
+          var diffY = touch.clientY - startY;
+
+          // Detecta se o movimento é vertical ou horizontal
+          if (!isDragging && !isScrolling) {
+            if (Math.abs(diffY) > Math.abs(diffX)) {
+              isScrolling = true;
+              carouselTrack.style.transition = '';
+              return;
+            } else if (Math.abs(diffX) > 10) {
+              isDragging = true;
             }
+          }
+
+          if (isDragging) {
+            if (e.cancelable) e.preventDefault();
+
+            var visibleSlides = getVisibleSlidesCount();
+            var maxIndex = carouselSlides.length - visibleSlides;
+            if (maxIndex < 0) maxIndex = 0;
+            var maxOffset = carouselSlides[maxIndex] ? -carouselSlides[maxIndex].offsetLeft : 0;
+
+            var newTranslateX = currentOffset + diffX;
+
+            // Efeito elástico (resistência) nos limites do carrossel
+            if (newTranslateX > 0) {
+              newTranslateX = newTranslateX * 0.3;
+            } else if (newTranslateX < maxOffset) {
+              var overscroll = newTranslateX - maxOffset;
+              newTranslateX = maxOffset + overscroll * 0.3;
+            }
+
+            carouselTrack.style.transform = 'translateX(' + newTranslateX + 'px)';
+          }
+        }, { passive: false });
+
+        carouselTrack.addEventListener('touchend', function (e) {
+          if (!isDragging) {
+            carouselTrack.style.transition = '';
+            return;
+          }
+          isDragging = false;
+
+          // Restaura a transição suave
+          carouselTrack.style.transition = '';
+
+          // Threshold para avançar/voltar o slide (60px)
+          var threshold = 60;
+          if (diffX < -threshold) {
+            goToSlide(currentIndex + 1);
+          } else if (diffX > threshold) {
+            goToSlide(currentIndex - 1);
+          } else {
+            goToSlide(currentIndex);
           }
         });
       }
@@ -3978,31 +4542,87 @@
         updateAboutDots();
         goToAboutSlide(0);
 
-        // Add Swipe Support for Mobile
+        // Suporte a swipe suave e arrastável para mobile (estilo Instagram)
         var aboutStartX = 0;
-        var aboutCurrentX = 0;
+        var aboutStartY = 0;
+        var aboutDiffX = 0;
         var aboutIsDragging = false;
+        var aboutIsScrolling = false;
+        var aboutCurrentOffset = 0;
 
         aboutTrack.addEventListener('touchstart', function (e) {
-          aboutStartX = e.touches[0].clientX;
-          aboutIsDragging = true;
+          var touch = e.touches[0];
+          aboutStartX = touch.clientX;
+          aboutStartY = touch.clientY;
+          aboutDiffX = 0;
+          aboutIsDragging = false;
+          aboutIsScrolling = false;
+
+          var currentSlideEl = aboutSlides[aboutCurrentIndex];
+          if (currentSlideEl) {
+            aboutCurrentOffset = -currentSlideEl.offsetLeft;
+          } else {
+            aboutCurrentOffset = 0;
+          }
+
+          // Desativa a transição CSS para que o arrastar siga o dedo instantaneamente
+          aboutTrack.style.transition = 'none';
         }, { passive: true });
 
         aboutTrack.addEventListener('touchmove', function (e) {
-          if (!aboutIsDragging) return;
-          aboutCurrentX = e.touches[0].clientX;
-        }, { passive: true });
+          if (aboutIsScrolling) return;
 
-        aboutTrack.addEventListener('touchend', function () {
-          if (!aboutIsDragging) return;
-          aboutIsDragging = false;
-          var diff = aboutStartX - aboutCurrentX;
-          if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-              goToAboutSlide(aboutCurrentIndex + 1);
-            } else {
-              goToAboutSlide(aboutCurrentIndex - 1);
+          var touch = e.touches[0];
+          aboutDiffX = touch.clientX - aboutStartX;
+          var aboutDiffY = touch.clientY - aboutStartY;
+
+          // Detecta se o movimento é vertical ou horizontal
+          if (!aboutIsDragging && !aboutIsScrolling) {
+            if (Math.abs(aboutDiffY) > Math.abs(aboutDiffX)) {
+              aboutIsScrolling = true;
+              aboutTrack.style.transition = '';
+              return;
+            } else if (Math.abs(aboutDiffX) > 10) {
+              aboutIsDragging = true;
             }
+          }
+
+          if (aboutIsDragging) {
+            if (e.cancelable) e.preventDefault();
+
+            var maxOffset = aboutSlides[aboutSlides.length - 1] ? -aboutSlides[aboutSlides.length - 1].offsetLeft : 0;
+            var newTranslateX = aboutCurrentOffset + aboutDiffX;
+
+            // Efeito elástico (resistência) nos limites do carrossel
+            if (newTranslateX > 0) {
+              newTranslateX = newTranslateX * 0.3;
+            } else if (newTranslateX < maxOffset) {
+              var overscroll = newTranslateX - maxOffset;
+              newTranslateX = maxOffset + overscroll * 0.3;
+            }
+
+            aboutTrack.style.transform = 'translateX(' + newTranslateX + 'px)';
+          }
+        }, { passive: false });
+
+        aboutTrack.addEventListener('touchend', function (e) {
+          if (!aboutIsDragging) {
+            aboutTrack.style.transition = '';
+            return;
+          }
+          aboutIsDragging = false;
+
+          // Restaura a transição suave
+          aboutTrack.style.transition = '';
+
+          // Threshold para avançar/voltar o slide (60px)
+          var threshold = 60;
+          if (aboutDiffX < -threshold) {
+            goToAboutSlide(aboutCurrentIndex + 1);
+          } else if (aboutDiffX > threshold) {
+            goToAboutSlide(aboutCurrentIndex - 1);
+          } else {
+            goToAboutSlide(aboutCurrentIndex);
           }
         });
       }
