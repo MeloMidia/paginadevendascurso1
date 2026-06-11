@@ -81,35 +81,35 @@
     .hero {
       position: relative;
       width: 100%;
-      min-height: 100svh;
+      min-height: 0;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      justify-content: center;
+      align-items: center;
       overflow: hidden;
       background: var(--c-bg);
+      padding: 48px 22px;
     }
 
-    /* Foto instrutor — fundo */
-    .hero__photo {
+    /* Fundo de estoque — escuro e liso */
+    .hero__bg {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center top;
+      object-position: center;
       z-index: 0;
+      filter: brightness(0.35) contrast(1.05) saturate(0.6);
     }
 
 
-    /* Gradiente bottom → legibilidade do copy */
+    /* Gradiente radial + linear para legibilidade do copy */
     .hero__overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top,
-          rgba(7, 7, 12, 1) 0%,
-          rgba(7, 7, 12, 0.85) 28%,
-          rgba(7, 7, 12, 0.35) 55%,
-          transparent 78%);
+      background:
+        linear-gradient(to top, rgba(7, 7, 12, 1) 0%, rgba(7, 7, 12, 0.55) 50%, rgba(7, 7, 12, 0.2) 100%);
       z-index: 1;
       pointer-events: none;
     }
@@ -117,11 +117,11 @@
     /* Brilho dourado atrás do copy */
     .hero__glow {
       position: absolute;
-      bottom: -20px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      width: 380px;
-      height: 240px;
+      transform: translate(-50%, -50%);
+      width: 480px;
+      height: 300px;
       background: radial-gradient(ellipse, var(--c-gold-glow) 0%, transparent 70%);
       z-index: 1;
       pointer-events: none;
@@ -136,7 +136,8 @@
       align-items: center;
       text-align: center;
       gap: 14px;
-      padding: 0 22px 44px;
+      width: 100%;
+      max-width: 800px;
     }
 
     /* Eyebrow */
@@ -161,12 +162,19 @@
       font-weight: 800;
       line-height: 1.1;
       letter-spacing: -0.025em;
-      max-width: 520px;
+      max-width: 620px;
     }
 
     .hero__headline em {
       font-style: normal;
       color: var(--c-gold);
+    }
+
+    /* Destaque especial: borda inferior dourada + itálico ligeiro */
+    .hero__headline .highlight {
+      color: var(--c-gold);
+      font-style: italic;
+      position: relative;
     }
 
     /* Subline — 1 linha, discreta */
@@ -701,53 +709,45 @@
     @media (min-width: 768px) {
 
       .hero {
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: stretch;
+        min-height: 0;
+        padding: clamp(60px, 8vh, 80px) 24px;
       }
 
-      .hero__photo {
-        left: auto;
-        right: 0;
-        top: 0;
-        width: 54%;
-        object-position: center top;
+      .hero__bg {
+        width: 100%;
+        height: 100%;
       }
 
-      /* overlay lateral no desktop */
+      /* overlay no desktop */
       .hero__overlay {
-        background: linear-gradient(to right,
-            rgba(7, 7, 12, 1) 0%,
-            rgba(7, 7, 12, 0.95) 28%,
-            rgba(7, 7, 12, 0.55) 56%,
-            transparent 78%);
+        background:
+          linear-gradient(to top, rgba(7, 7, 12, 1) 0%, rgba(7, 7, 12, 0.5) 50%, rgba(7, 7, 12, 0.15) 100%);
       }
 
       .hero__glow {
-        left: 26%;
-        bottom: 50%;
-        transform: translate(-50%, 50%);
-        width: 520px;
-        height: 520px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 650px;
+        height: 400px;
       }
 
       .hero__content {
-        width: 54%;
-        max-width: 660px;
-        align-items: flex-start;
-        text-align: left;
-        justify-content: center;
-        padding: 80px 0 80px clamp(40px, 6vw, 96px);
-        gap: 18px;
+        width: 100%;
+        max-width: 800px;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
       }
 
       .btn-cta {
-        width: auto;
-        align-self: flex-start;
+        width: 100%;
+        max-width: 420px;
+        align-self: center;
       }
 
       .guarantee {
-        justify-content: flex-start;
+        justify-content: center;
       }
 
     }
@@ -2532,6 +2532,7 @@
         height: 280px;
       }
     }
+
     /* ── SEÇÃO SUPORTE ── */
     .support-section {
       padding: clamp(60px, 8vw, 100px) 24px;
@@ -2714,6 +2715,86 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
     }
+    /* ══ LOGO HERO ══ */
+    .hero-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
+      z-index: 10;
+      margin-bottom: 24px;
+      padding: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .hero-logo__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.75);
+      text-transform: none;
+      margin-bottom: 2px;
+    }
+
+    .hero-logo__line {
+      flex: 1;
+      height: 1px;
+      min-width: 80px;
+      background: linear-gradient(to right, rgba(255,255,255,0.15), #c8922a, #f5e07a, #c8922a, rgba(255,255,255,0.05));
+      position: relative;
+    }
+
+    .hero-logo__line::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 6px;
+      background: #fff9c4;
+      border-radius: 50%;
+      box-shadow: 0 0 8px 4px rgba(255, 220, 80, 0.8), 0 0 20px 8px rgba(255, 180, 30, 0.4);
+    }
+
+    .hero-logo__main {
+      font-size: clamp(2.2rem, 9vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      background: linear-gradient(180deg, #f5dc6a 0%, #c8922a 45%, #a06820 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+    }
+
+    .hero-logo__sub {
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      background: linear-gradient(180deg, #ffffff 0%, #c8cdd8 50%, #8a919e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+    }
+
+    @media (min-width: 768px) {
+      .hero-logo {
+        padding: 0;
+        margin-bottom: 28px;
+      }
+      .hero-logo__line {
+        min-width: 160px;
+      }
+    }
   </style>
 </head>
 
@@ -2721,12 +2802,8 @@
 
   <section class="hero">
 
-    <!-- Foto do instrutor — mobile: nova imagem com cards, desktop: instructor.png -->
-    <picture>
-      <source media="(max-width: 767px)" srcset="imgs/instructorMobile.png" />
-      <img class="hero__photo" src="imgs/instructor.png" alt="Instrutor — Autopeças no Mercado Livre"
-        fetchpriority="high" loading="eager" />
-    </picture>
+    <!-- Fundo de autopeças -->
+    <img class="hero__bg" src="imgs/hero_bg_v2.png" alt="Estoque de Autopeças" fetchpriority="high" loading="eager" />
 
     <!-- Overlay gradiente -->
     <div class="hero__overlay"></div>
@@ -2735,22 +2812,23 @@
     <!-- Copy -->
     <div class="hero__content">
 
-      <span class="eyebrow reveal">
-        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-        </svg>
-        Curso online · Acesso imediato
-      </span>
+      <!-- Logo -->
+      <div class="hero-logo reveal">
+        <div class="hero-logo__eyebrow">
+          <span>Curso</span>
+          <span class="hero-logo__line"></span>
+        </div>
+        <span class="hero-logo__main">Autopeças</span>
+        <span class="hero-logo__sub">no Mercado Livre</span>
+      </div>
 
       <h1 class="hero__headline reveal">
-        Do estoque parado<br>
-        ao <em>faturamento no<br>Mercado Livre</em>
+        Você já pensou em <span class="highlight">Lucrar</span> de verdade no <em>Mercado Livre</em>?
       </h1>
 
       <p class="hero__subline reveal">
-        <strong style="color: var(--c-gold);">O método</strong> para dominar as vendas de autopeças no Mercado Livre e
-        <strong style="color: var(--c-gold);">faturar R$ 100K/mês</strong> - independente do seu ponto
-        de partida.
+        Nesse vídeo você vai entender como o <strong style="color: var(--c-gold);">Mercado Livre</strong> vai mudar a
+        sua vida
       </p>
 
       <a href="https://pay.kiwify.com.br/9HdF9Zl" class="btn-cta reveal"
@@ -2763,15 +2841,6 @@
           </svg>
         </span>
       </a>
-
-      <p class="guarantee reveal">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        </svg>
-        Garantia incondicional de 7 dias
-      </p>
-
     </div>
 
   </section>
@@ -2795,8 +2864,7 @@
       <div class="vsl-wrap sr">
         <div class="vsl__intro">
           <span class="vsl__eyebrow">Assista antes de continuar</span>
-          <h3 class="vsl__headline">Em menos de 10 minutos, Eduardo mostra a estrutura completa do curso e como saiu
-            do estoque parado para múltiplos 6 dígitos vendendo autopeças no Mercado Livre.</h3>
+
         </div>
         <div class="vsl" id="vsl" onclick="vslClick()">
 
@@ -3395,7 +3463,9 @@
             </div>
 
             <p class="melo-operation__desc">
-              Aqui não somos <strong>GURU</strong> de internet, entregamos serviço de <strong>VERDADE E DE QUALIDADE</strong>. Nossa metodologia nasceu e é validada diariamente dentro do nosso centro de distribuição.
+              Aqui não somos <strong>GURU</strong> de internet, entregamos serviço de <strong>VERDADE E DE
+                QUALIDADE</strong>. Nossa metodologia nasceu e é validada diariamente dentro do nosso centro de
+              distribuição.
             </p>
 
             <div class="melo-operation__points">
@@ -3817,16 +3887,19 @@
         <div class="support-card support-card--whatsapp">
           <div class="support-icon-wrap support-icon-wrap--whatsapp">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.66.986 3.287 1.487 4.908 1.488 5.344 0 9.7-4.35 9.703-9.686.002-2.585-1.002-5.016-2.83-6.848-1.829-1.83-4.258-2.835-6.843-2.836-5.348 0-9.704 4.352-9.707 9.688a9.584 9.584 0 0 0 1.547 5.176l-.997 3.637 3.73-.977zm11.398-6.828c-.287-.144-1.702-.84-1.965-.936-.264-.096-.456-.144-.648.144-.192.288-.744.936-.912 1.128-.168.192-.336.216-.624.072-2.825-1.415-4.607-3.413-5.404-4.786-.21-.362.21-.336.6-.112.35.202.82.97.915 1.156.096.192.048.36-.024.504-.072.144-.648 1.56-.792 1.902-.14.336-.282.288-.475.192-.193-.096-.813-.299-1.547-.954-.572-.51-1.006-1.14-1.127-1.348-.12-.208-.013-.32.083-.416.086-.086.208-.24.312-.36.104-.12.14-.204.208-.344.068-.14.034-.264-.017-.36-.051-.096-.456-1.099-.624-1.503-.164-.396-.344-.342-.475-.349-.12-.006-.264-.007-.407-.007s-.384.054-.585.276c-.2.222-.765.748-.765 1.824 0 1.077.783 2.115.891 2.262.11.147 1.542 2.355 3.735 3.301.52.225.928.36 1.246.462.523.167.999.143 1.376.088.42-.062 1.702-.696 1.942-1.368.24-.672.24-1.248.168-1.368-.072-.12-.264-.192-.552-.336z"/>
+              <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.66.986 3.287 1.487 4.908 1.488 5.344 0 9.7-4.35 9.703-9.686.002-2.585-1.002-5.016-2.83-6.848-1.829-1.83-4.258-2.835-6.843-2.836-5.348 0-9.704 4.352-9.707 9.688a9.584 9.584 0 0 0 1.547 5.176l-.997 3.637 3.73-.977zm11.398-6.828c-.287-.144-1.702-.84-1.965-.936-.264-.096-.456-.144-.648.144-.192.288-.744.936-.912 1.128-.168.192-.336.216-.624.072-2.825-1.415-4.607-3.413-5.404-4.786-.21-.362.21-.336.6-.112.35.202.82.97.915 1.156.096.192.048.36-.024.504-.072.144-.648 1.56-.792 1.902-.14.336-.282.288-.475.192-.193-.096-.813-.299-1.547-.954-.572-.51-1.006-1.14-1.127-1.348-.12-.208-.013-.32.083-.416.086-.086.208-.24.312-.36.104-.12.14-.204.208-.344.068-.14.034-.264-.017-.36-.051-.096-.456-1.099-.624-1.503-.164-.396-.344-.342-.475-.349-.12-.006-.264-.007-.407-.007s-.384.054-.585.276c-.2.222-.765.748-.765 1.824 0 1.077.783 2.115.891 2.262.11.147 1.542 2.355 3.735 3.301.52.225.928.36 1.246.462.523.167.999.143 1.376.088.42-.062 1.702-.696 1.942-1.368.24-.672.24-1.248.168-1.368-.072-.12-.264-.192-.552-.336z" />
             </svg>
           </div>
           <h3 class="support-card__title">Suporte via WhatsApp</h3>
           <p class="support-card__desc">
             Clique abaixo para falar diretamente com nosso atendimento e tirar suas dúvidas sobre o treinamento.
           </p>
-          <a href="https://wa.me/5562996914244?text=Tenho%20duvidas%20sobre%20o%20curso" target="_blank" rel="noopener" class="support-btn support-btn--whatsapp">
+          <a href="https://wa.me/5562996914244?text=Tenho%20duvidas%20sobre%20o%20curso" target="_blank" rel="noopener"
+            class="support-btn support-btn--whatsapp">
             Chamar no WhatsApp
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </a>
@@ -3836,16 +3909,20 @@
         <div class="support-card support-card--instagram">
           <div class="support-icon-wrap support-icon-wrap--instagram">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
             </svg>
           </div>
           <h3 class="support-card__title">Nosso Instagram</h3>
           <p class="support-card__desc">
-            Siga-nos no Instagram para acompanhar conteúdos exclusivos, dicas de Mercado Livre e novidades da Melo Mídia.
+            Siga-nos no Instagram para acompanhar conteúdos exclusivos, dicas de Mercado Livre e novidades da Melo
+            Mídia.
           </p>
-          <a href="https://www.instagram.com/_melomidia/" target="_blank" rel="noopener" class="support-btn support-btn--instagram">
+          <a href="https://www.instagram.com/_melomidia/" target="_blank" rel="noopener"
+            class="support-btn support-btn--instagram">
             Acessar Instagram
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </a>
