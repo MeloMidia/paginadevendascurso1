@@ -2715,6 +2715,7 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
     }
+
     /* ══ LOGO HERO ══ */
     .hero-logo {
       display: flex;
@@ -2736,7 +2737,7 @@
       font-size: 0.72rem;
       font-weight: 400;
       letter-spacing: 0.06em;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255, 255, 255, 0.75);
       text-transform: none;
       margin-bottom: 2px;
     }
@@ -2745,21 +2746,30 @@
       flex: 1;
       height: 1px;
       min-width: 80px;
-      background: linear-gradient(to right, rgba(255,255,255,0.15), #c8922a, #f5e07a, #c8922a, rgba(255,255,255,0.05));
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.15), #c8922a, #f5e07a, #c8922a, rgba(255, 255, 255, 0.05));
       position: relative;
     }
 
-    .hero-logo__line::after {
-      content: '';
+    .hero-logo__line img {
       position: absolute;
-      top: -3px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      width: 6px;
-      height: 6px;
-      background: #fff9c4;
-      border-radius: 50%;
-      box-shadow: 0 0 8px 4px rgba(255, 220, 80, 0.8), 0 0 20px 8px rgba(255, 180, 30, 0.4);
+      transform: translate(-50%, -50%);
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 6px rgba(255, 210, 52, 0.8));
+      animation: float-piston 3s ease-in-out infinite;
+    }
+
+    @keyframes float-piston {
+      0%, 100% {
+        transform: translate(-50%, -50%) translateY(0);
+      }
+      50% {
+        transform: translate(-50%, -50%) translateY(-3px);
+      }
     }
 
     .hero-logo__main {
@@ -2791,6 +2801,7 @@
         padding: 0;
         margin-bottom: 28px;
       }
+
       .hero-logo__line {
         min-width: 160px;
       }
@@ -2816,7 +2827,9 @@
       <div class="hero-logo reveal">
         <div class="hero-logo__eyebrow">
           <span>Curso</span>
-          <span class="hero-logo__line"></span>
+          <span class="hero-logo__line">
+            <img src="imgs/piston_3d.png" alt="Pistão 3D" />
+          </span>
         </div>
         <span class="hero-logo__main">Autopeças</span>
         <span class="hero-logo__sub">no Mercado Livre</span>
@@ -3088,7 +3101,7 @@
   <section class="for-whom sr">
     <div class="for-whom__inner">
       <div class="for-whom__header">
-        <h2 class="for-whom__title">Este treinamento é <em>para você?</em></h2>
+        <h2 class="for-whom__title">Este treinamento é <em>para você!</em></h2>
         <p class="for-whom__sub">Se você se encaixa em algum desses perfis, o método foi desenhado especialmente para a
           sua realidade:</p>
       </div>
