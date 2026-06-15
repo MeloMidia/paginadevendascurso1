@@ -901,26 +901,32 @@
 
     .about-carousel-track-wrapper {
       width: 100%;
-      overflow: hidden;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       border-radius: 16px;
       background: rgba(255, 255, 255, 0.01);
       border: 1px solid rgba(255, 255, 255, 0.04);
       padding: 0;
       box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
-      touch-action: pan-y;
     }
+
+    .about-carousel-track-wrapper::-webkit-scrollbar { display: none; }
 
     .about-carousel-track {
       display: flex;
       position: relative;
-      transition: transform 500ms cubic-bezier(0.25, 1, 0.5, 1);
-      will-change: transform;
-      touch-action: pan-y;
+      width: 100%;
     }
 
     .about-slide {
       flex: 0 0 100%;
       width: 100%;
+      min-width: 100%;
+      scroll-snap-align: start;
       box-sizing: border-box;
       display: grid;
       grid-template-columns: 1fr;
@@ -1537,24 +1543,30 @@
 
     .testimonials-carousel-track-wrapper {
       width: 100%;
-      overflow: hidden;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       border-radius: 12px;
       padding: 8px 0;
-      touch-action: pan-y;
     }
+
+    .testimonials-carousel-track-wrapper::-webkit-scrollbar { display: none; }
 
     .testimonials-carousel-track {
       display: flex;
       position: relative;
       gap: 24px;
-      transition: transform 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      will-change: transform;
-      touch-action: pan-y;
+      width: 100%;
     }
 
     .testimonial-slide {
       flex: 0 0 calc(33.333% - 16px);
       width: calc(33.333% - 16px);
+      min-width: calc(33.333% - 16px);
+      scroll-snap-align: start;
       box-sizing: border-box;
       transition: transform 300ms var(--ease-spring), opacity 300ms ease;
     }
@@ -1567,6 +1579,7 @@
       .testimonial-slide {
         flex: 0 0 calc(50% - 12px);
         width: calc(50% - 12px);
+        min-width: calc(50% - 12px);
       }
     }
 
@@ -1578,6 +1591,7 @@
       .testimonial-slide {
         flex: 0 0 100%;
         width: 100%;
+        min-width: 100%;
       }
     }
 
@@ -4368,6 +4382,7 @@
       }
 
       // ── Testimonials Carousel Script
+      var carouselWrapper = document.querySelector('.testimonials-carousel-track-wrapper');
       var carouselTrack = document.querySelector('.testimonials-carousel-track');
       var carouselSlides = document.querySelectorAll('.testimonial-slide');
       var prevBtn = document.querySelector('.carousel-control.prev');
@@ -4418,9 +4433,8 @@
           }
 
           var targetSlide = carouselSlides[currentIndex];
-          if (targetSlide) {
-            var offset = targetSlide.offsetLeft;
-            carouselTrack.style.transform = 'translateX(-' + offset + 'px)';
+          if (targetSlide && carouselWrapper) {
+            carouselWrapper.scrollTo({ left: targetSlide.offsetLeft, behavior: 'smooth' });
           }
 
           var dots = dotsContainer.querySelectorAll('.carousel-dot');
@@ -4497,89 +4511,78 @@
           clearTimeout(resizeTimeout);
           resizeTimeout = setTimeout(function () {
             updateDots();
-            goToSlide(currentIndex);
+            var targetSlide = carouselSlides[currentIndex];
+            if (targetSlide && carouselWrapper) {
+              carouselWrapper.scrollTo({ left: targetSlide.offsetLeft, behavior: 'auto' });
+            }
           }, 100);
         });
 
         // Initialize
         updateDots();
-        goToSlide(0);
+        if (carouselWrapper) carouselWrapper.scrollLeft = 0;
+        if (prevBtn) { prevBtn.style.opacity = '0.3'; prevBtn.style.pointerEvents = 'none'; }
+        if (nextBtn) { nextBtn.style.opacity = '1'; nextBtn.style.pointerEvents = 'auto'; }
 
-        // Suporte a swipe (estilo Instagram)
-        var swipeStartX = 0, swipeStartY = 0, swipeDiffX = 0;
-        var swipeDir = null; // null | 'h' | 'v'
-        var swipeBaseX = 0;
-
-        function getCarouselTrackX() {
-          var t = window.getComputedStyle(carouselTrack).transform;
-          if (!t || t === 'none') return 0;
-          var m = t.match(/matrix\([^,]+,[^,]+,[^,]+,[^,]+,([^,]+),/);
-          return m ? parseFloat(m[1]) : 0;
+        // Track swipe-based navigation via scroll events
+        if (carouselWrapper) {
+          var scrollSyncTimeout;
+          carouselWrapper.addEventListener('scroll', function () {
+            clearTimeout(scrollSyncTimeout);
+            scrollSyncTimeout = setTimeout(function () {
+              var scrollLeft = carouselWrapper.scrollLeft;
+              var closest = currentIndex;
+              var minDist = Infinity;
+              carouselSlides.forEach(function (slide, i) {
+                var dist = Math.abs(slide.offsetLeft - scrollLeft);
+                if (dist < minDist) { minDist = dist; closest = i; }
+              });
+              if (closest !== currentIndex) {
+                currentIndex = closest;
+                updateDots();
+                var visibleSlides = getVisibleSlidesCount();
+                var maxIndex = carouselSlides.length - visibleSlides;
+                if (maxIndex < 0) maxIndex = 0;
+                if (prevBtn) {
+                  prevBtn.style.opacity = currentIndex === 0 ? '0.3' : '1';
+                  prevBtn.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+                }
+                if (nextBtn) {
+                  nextBtn.style.opacity = currentIndex === maxIndex ? '0.3' : '1';
+                  nextBtn.style.pointerEvents = currentIndex === maxIndex ? 'none' : 'auto';
+                }
+                if (testiVslVideo) {
+                  if (currentIndex === 0) {
+                    testiVslVideo.muted = false;
+                    updateTestiMuteIcon();
+                    var rect = testiVslVideo.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) testiVslVideo.play().catch(function () { });
+                  } else {
+                    testiVslVideo.muted = true;
+                    testiVslVideo.pause();
+                    updateTestiMuteIcon();
+                  }
+                }
+                if (testiVslVideo2) {
+                  if (currentIndex === 1) {
+                    testiVslVideo2.muted = false;
+                    updateTestiMuteIcon2();
+                    var rect2 = testiVslVideo2.getBoundingClientRect();
+                    if (rect2.top < window.innerHeight && rect2.bottom > 0) testiVslVideo2.play().catch(function () { });
+                  } else {
+                    testiVslVideo2.muted = true;
+                    testiVslVideo2.pause();
+                    updateTestiMuteIcon2();
+                  }
+                }
+              }
+            }, 150);
+          }, { passive: true });
         }
-
-        carouselTrack.addEventListener('touchstart', function (e) {
-          swipeStartX = e.touches[0].clientX;
-          swipeStartY = e.touches[0].clientY;
-          swipeDiffX = 0;
-          swipeDir = null;
-          swipeBaseX = getCarouselTrackX();
-          carouselTrack.style.transition = 'none';
-          carouselTrack.style.transform = 'translateX(' + swipeBaseX + 'px)';
-        }, { passive: true });
-
-        carouselTrack.addEventListener('touchmove', function (e) {
-          if (swipeDir === 'v') return;
-
-          swipeDiffX = e.touches[0].clientX - swipeStartX;
-          var dy = e.touches[0].clientY - swipeStartY;
-
-          if (!swipeDir) {
-            if (Math.abs(swipeDiffX) < 5 && Math.abs(dy) < 5) return;
-            swipeDir = Math.abs(swipeDiffX) >= Math.abs(dy) ? 'h' : 'v';
-            if (swipeDir === 'v') {
-              carouselTrack.style.transition = '';
-              return;
-            }
-          }
-
-          if (e.cancelable) e.preventDefault();
-
-          var visibleSlides = getVisibleSlidesCount();
-          var maxIdx = carouselSlides.length - visibleSlides;
-          if (maxIdx < 0) maxIdx = 0;
-          var maxOffset = carouselSlides[maxIdx] ? -carouselSlides[maxIdx].offsetLeft : 0;
-
-          var newX = swipeBaseX + swipeDiffX;
-          if (newX > 0) {
-            newX = newX * 0.3;
-          } else if (newX < maxOffset) {
-            newX = maxOffset + (newX - maxOffset) * 0.3;
-          }
-
-          carouselTrack.style.transform = 'translateX(' + newX + 'px)';
-        }, { passive: false });
-
-        carouselTrack.addEventListener('touchend', function () {
-          carouselTrack.style.transition = '';
-          if (swipeDir !== 'h') return;
-          var threshold = 60;
-          if (swipeDiffX < -threshold) {
-            goToSlide(currentIndex + 1);
-          } else if (swipeDiffX > threshold) {
-            goToSlide(currentIndex - 1);
-          } else {
-            goToSlide(currentIndex);
-          }
-        });
-
-        carouselTrack.addEventListener('touchcancel', function () {
-          carouselTrack.style.transition = '';
-          swipeDir = null;
-          goToSlide(currentIndex);
-        });
       }
 
       // ── About Carousel Script
+      var aboutWrapper = document.querySelector('.about-carousel-track-wrapper');
       var aboutTrack = document.querySelector('.about-carousel-track');
       var aboutSlides = document.querySelectorAll('.about-slide');
       var aboutPrevBtn = document.querySelector('.about-control.prev');
@@ -4623,7 +4626,7 @@
 
           var slideWidth = getAboutSlideWidth();
           var offset = aboutCurrentIndex * slideWidth;
-          aboutTrack.style.transform = 'translateX(-' + offset + 'px)';
+          if (aboutWrapper) aboutWrapper.scrollTo({ left: offset, behavior: 'smooth' });
 
           var dots = aboutDotsContainer.querySelectorAll('.about-dot');
           dots.forEach(function (dot, idx) {
@@ -4660,83 +4663,46 @@
         window.addEventListener('resize', function () {
           clearTimeout(aboutResizeTimeout);
           aboutResizeTimeout = setTimeout(function () {
-            goToAboutSlide(aboutCurrentIndex);
+            var sw = getAboutSlideWidth();
+            if (aboutWrapper) aboutWrapper.scrollTo({ left: aboutCurrentIndex * sw, behavior: 'auto' });
           }, 100);
         });
 
         // Initialize
         updateAboutDots();
-        goToAboutSlide(0);
+        if (aboutWrapper) aboutWrapper.scrollLeft = 0;
+        if (aboutPrevBtn) { aboutPrevBtn.style.opacity = '0.3'; aboutPrevBtn.style.pointerEvents = 'none'; }
+        if (aboutNextBtn) { aboutNextBtn.style.opacity = '1'; aboutNextBtn.style.pointerEvents = 'auto'; }
 
-        // Suporte a swipe (estilo Instagram) para o carrossel Sobre Mim
-        var aboutSwipeStartX = 0, aboutSwipeStartY = 0, aboutSwipeDiffX = 0;
-        var aboutSwipeDir = null; // null | 'h' | 'v'
-        var aboutSwipeBaseX = 0;
-
-        function getAboutTrackX() {
-          var t = window.getComputedStyle(aboutTrack).transform;
-          if (!t || t === 'none') return 0;
-          var m = t.match(/matrix\([^,]+,[^,]+,[^,]+,[^,]+,([^,]+),/);
-          return m ? parseFloat(m[1]) : 0;
+        // Track swipe-based navigation via scroll events
+        if (aboutWrapper) {
+          var aboutScrollSyncTimeout;
+          aboutWrapper.addEventListener('scroll', function () {
+            clearTimeout(aboutScrollSyncTimeout);
+            aboutScrollSyncTimeout = setTimeout(function () {
+              var sw = getAboutSlideWidth();
+              if (sw <= 0) return;
+              var closest = Math.round(aboutWrapper.scrollLeft / sw);
+              closest = Math.max(0, Math.min(aboutSlides.length - 1, closest));
+              if (closest !== aboutCurrentIndex) {
+                aboutCurrentIndex = closest;
+                var dots = aboutDotsContainer.querySelectorAll('.about-dot');
+                dots.forEach(function (dot, idx) {
+                  if (idx === aboutCurrentIndex) dot.classList.add('active');
+                  else dot.classList.remove('active');
+                });
+                if (aboutPrevBtn) {
+                  aboutPrevBtn.style.opacity = aboutCurrentIndex === 0 ? '0.3' : '1';
+                  aboutPrevBtn.style.pointerEvents = aboutCurrentIndex === 0 ? 'none' : 'auto';
+                }
+                if (aboutNextBtn) {
+                  aboutNextBtn.style.opacity = aboutCurrentIndex === aboutSlides.length - 1 ? '0.3' : '1';
+                  aboutNextBtn.style.pointerEvents = aboutCurrentIndex === aboutSlides.length - 1 ? 'none' : 'auto';
+                }
+              }
+            }, 150);
+          }, { passive: true });
         }
-
-        aboutTrack.addEventListener('touchstart', function (e) {
-          aboutSwipeStartX = e.touches[0].clientX;
-          aboutSwipeStartY = e.touches[0].clientY;
-          aboutSwipeDiffX = 0;
-          aboutSwipeDir = null;
-          aboutSwipeBaseX = getAboutTrackX();
-          aboutTrack.style.transition = 'none';
-          aboutTrack.style.transform = 'translateX(' + aboutSwipeBaseX + 'px)';
-        }, { passive: true });
-
-        aboutTrack.addEventListener('touchmove', function (e) {
-          if (aboutSwipeDir === 'v') return;
-
-          aboutSwipeDiffX = e.touches[0].clientX - aboutSwipeStartX;
-          var dy = e.touches[0].clientY - aboutSwipeStartY;
-
-          if (!aboutSwipeDir) {
-            if (Math.abs(aboutSwipeDiffX) < 5 && Math.abs(dy) < 5) return;
-            aboutSwipeDir = Math.abs(aboutSwipeDiffX) >= Math.abs(dy) ? 'h' : 'v';
-            if (aboutSwipeDir === 'v') {
-              aboutTrack.style.transition = '';
-              return;
-            }
-          }
-
-          if (e.cancelable) e.preventDefault();
-
-          var slideWidth = getAboutSlideWidth();
-          var maxOffset = -(aboutSlides.length - 1) * slideWidth;
-          var newX = aboutSwipeBaseX + aboutSwipeDiffX;
-          if (newX > 0) {
-            newX = newX * 0.3;
-          } else if (newX < maxOffset) {
-            newX = maxOffset + (newX - maxOffset) * 0.3;
-          }
-
-          aboutTrack.style.transform = 'translateX(' + newX + 'px)';
-        }, { passive: false });
-
-        aboutTrack.addEventListener('touchend', function () {
-          aboutTrack.style.transition = '';
-          if (aboutSwipeDir !== 'h') return;
-          var threshold = 60;
-          if (aboutSwipeDiffX < -threshold) {
-            goToAboutSlide(aboutCurrentIndex + 1);
-          } else if (aboutSwipeDiffX > threshold) {
-            goToAboutSlide(aboutCurrentIndex - 1);
-          } else {
-            goToAboutSlide(aboutCurrentIndex);
-          }
-        });
-
-        aboutTrack.addEventListener('touchcancel', function () {
-          aboutTrack.style.transition = '';
-          aboutSwipeDir = null;
-          goToAboutSlide(aboutCurrentIndex);
-        });
       }
 
     });
