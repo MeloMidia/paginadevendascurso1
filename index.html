@@ -915,6 +915,7 @@
       position: relative;
       transition: transform 500ms cubic-bezier(0.25, 1, 0.5, 1);
       will-change: transform;
+      touch-action: pan-y;
     }
 
     .about-slide {
@@ -1548,6 +1549,7 @@
       gap: 24px;
       transition: transform 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
       will-change: transform;
+      touch-action: pan-y;
     }
 
     .testimonial-slide {
@@ -4539,11 +4541,14 @@
 
           // Detecta se o movimento é vertical ou horizontal
           if (!isDragging && !isScrolling) {
-            if (Math.abs(diffY) > Math.abs(diffX)) {
+            var absX = Math.abs(diffX);
+            var absY = Math.abs(diffY);
+            if (Math.max(absX, absY) < 8) return;
+            if (absY > absX) {
               isScrolling = true;
               carouselTrack.style.transition = '';
               return;
-            } else if (Math.abs(diffX) > 10) {
+            } else {
               isDragging = true;
             }
           }
@@ -4713,11 +4718,14 @@
 
           // Detecta se o movimento é vertical ou horizontal
           if (!aboutIsDragging && !aboutIsScrolling) {
-            if (Math.abs(aboutDiffY) > Math.abs(aboutDiffX)) {
+            var absAboutX = Math.abs(aboutDiffX);
+            var absAboutY = Math.abs(aboutDiffY);
+            if (Math.max(absAboutX, absAboutY) < 8) return;
+            if (absAboutY > absAboutX) {
               aboutIsScrolling = true;
               aboutTrack.style.transition = '';
               return;
-            } else if (Math.abs(aboutDiffX) > 10) {
+            } else {
               aboutIsDragging = true;
             }
           }
