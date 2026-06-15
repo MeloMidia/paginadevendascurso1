@@ -4505,95 +4505,77 @@
         updateDots();
         goToSlide(0);
 
-        // Suporte a swipe suave e arrastável para mobile (estilo Instagram)
-        var startX = 0;
-        var startY = 0;
-        var diffX = 0;
-        var isDragging = false;
-        var isScrolling = false;
-        var currentOffset = 0;
+        // Suporte a swipe (estilo Instagram)
+        var swipeStartX = 0, swipeStartY = 0, swipeDiffX = 0;
+        var swipeDir = null; // null | 'h' | 'v'
+        var swipeBaseX = 0;
+
+        function getCarouselTrackX() {
+          var t = window.getComputedStyle(carouselTrack).transform;
+          if (!t || t === 'none') return 0;
+          var m = t.match(/matrix\([^,]+,[^,]+,[^,]+,[^,]+,([^,]+),/);
+          return m ? parseFloat(m[1]) : 0;
+        }
 
         carouselTrack.addEventListener('touchstart', function (e) {
-          var touch = e.touches[0];
-          startX = touch.clientX;
-          startY = touch.clientY;
-          diffX = 0;
-          isDragging = false;
-          isScrolling = false;
-
-          var currentSlideEl = carouselSlides[currentIndex];
-          if (currentSlideEl) {
-            currentOffset = -currentSlideEl.offsetLeft;
-          } else {
-            currentOffset = 0;
-          }
-
-          // Desativa a transição CSS para que o arrastar siga o dedo instantaneamente
+          swipeStartX = e.touches[0].clientX;
+          swipeStartY = e.touches[0].clientY;
+          swipeDiffX = 0;
+          swipeDir = null;
+          swipeBaseX = getCarouselTrackX();
           carouselTrack.style.transition = 'none';
+          carouselTrack.style.transform = 'translateX(' + swipeBaseX + 'px)';
         }, { passive: true });
 
         carouselTrack.addEventListener('touchmove', function (e) {
-          if (isScrolling) return;
+          if (swipeDir === 'v') return;
 
-          var touch = e.touches[0];
-          diffX = touch.clientX - startX;
-          var diffY = touch.clientY - startY;
+          swipeDiffX = e.touches[0].clientX - swipeStartX;
+          var dy = e.touches[0].clientY - swipeStartY;
 
-          // Detecta se o movimento é vertical ou horizontal
-          if (!isDragging && !isScrolling) {
-            var absX = Math.abs(diffX);
-            var absY = Math.abs(diffY);
-            if (Math.max(absX, absY) < 8) return;
-            if (absY > absX) {
-              isScrolling = true;
+          if (!swipeDir) {
+            if (Math.abs(swipeDiffX) < 5 && Math.abs(dy) < 5) return;
+            swipeDir = Math.abs(swipeDiffX) >= Math.abs(dy) ? 'h' : 'v';
+            if (swipeDir === 'v') {
               carouselTrack.style.transition = '';
               return;
-            } else {
-              isDragging = true;
             }
           }
 
-          if (isDragging) {
-            if (e.cancelable) e.preventDefault();
+          if (e.cancelable) e.preventDefault();
 
-            var visibleSlides = getVisibleSlidesCount();
-            var maxIndex = carouselSlides.length - visibleSlides;
-            if (maxIndex < 0) maxIndex = 0;
-            var maxOffset = carouselSlides[maxIndex] ? -carouselSlides[maxIndex].offsetLeft : 0;
+          var visibleSlides = getVisibleSlidesCount();
+          var maxIdx = carouselSlides.length - visibleSlides;
+          if (maxIdx < 0) maxIdx = 0;
+          var maxOffset = carouselSlides[maxIdx] ? -carouselSlides[maxIdx].offsetLeft : 0;
 
-            var newTranslateX = currentOffset + diffX;
-
-            // Efeito elástico (resistência) nos limites do carrossel
-            if (newTranslateX > 0) {
-              newTranslateX = newTranslateX * 0.3;
-            } else if (newTranslateX < maxOffset) {
-              var overscroll = newTranslateX - maxOffset;
-              newTranslateX = maxOffset + overscroll * 0.3;
-            }
-
-            carouselTrack.style.transform = 'translateX(' + newTranslateX + 'px)';
+          var newX = swipeBaseX + swipeDiffX;
+          if (newX > 0) {
+            newX = newX * 0.3;
+          } else if (newX < maxOffset) {
+            newX = maxOffset + (newX - maxOffset) * 0.3;
           }
+
+          carouselTrack.style.transform = 'translateX(' + newX + 'px)';
         }, { passive: false });
 
-        carouselTrack.addEventListener('touchend', function (e) {
-          if (!isDragging) {
-            carouselTrack.style.transition = '';
-            return;
-          }
-          isDragging = false;
-
-          // Restaura a transição suave
+        carouselTrack.addEventListener('touchend', function () {
           carouselTrack.style.transition = '';
-
-          // Threshold para avançar/voltar o slide (60px)
+          if (swipeDir !== 'h') return;
           var threshold = 60;
-          if (diffX < -threshold) {
+          if (swipeDiffX < -threshold) {
             goToSlide(currentIndex + 1);
-          } else if (diffX > threshold) {
+          } else if (swipeDiffX > threshold) {
             goToSlide(currentIndex - 1);
           } else {
             goToSlide(currentIndex);
           }
+        });
+
+        carouselTrack.addEventListener('touchcancel', function () {
+          carouselTrack.style.transition = '';
+          swipeDir = null;
+          goToSlide(currentIndex);
         });
       }
 
@@ -4686,88 +4668,74 @@
         updateAboutDots();
         goToAboutSlide(0);
 
-        // Suporte a swipe suave e arrastável para mobile (estilo Instagram)
-        var aboutStartX = 0;
-        var aboutStartY = 0;
-        var aboutDiffX = 0;
-        var aboutIsDragging = false;
-        var aboutIsScrolling = false;
-        var aboutCurrentOffset = 0;
+        // Suporte a swipe (estilo Instagram) para o carrossel Sobre Mim
+        var aboutSwipeStartX = 0, aboutSwipeStartY = 0, aboutSwipeDiffX = 0;
+        var aboutSwipeDir = null; // null | 'h' | 'v'
+        var aboutSwipeBaseX = 0;
+
+        function getAboutTrackX() {
+          var t = window.getComputedStyle(aboutTrack).transform;
+          if (!t || t === 'none') return 0;
+          var m = t.match(/matrix\([^,]+,[^,]+,[^,]+,[^,]+,([^,]+),/);
+          return m ? parseFloat(m[1]) : 0;
+        }
 
         aboutTrack.addEventListener('touchstart', function (e) {
-          var touch = e.touches[0];
-          aboutStartX = touch.clientX;
-          aboutStartY = touch.clientY;
-          aboutDiffX = 0;
-          aboutIsDragging = false;
-          aboutIsScrolling = false;
-
-          var slideWidth = getAboutSlideWidth();
-          aboutCurrentOffset = -aboutCurrentIndex * slideWidth;
-
-          // Desativa a transição CSS para que o arrastar siga o dedo instantaneamente
+          aboutSwipeStartX = e.touches[0].clientX;
+          aboutSwipeStartY = e.touches[0].clientY;
+          aboutSwipeDiffX = 0;
+          aboutSwipeDir = null;
+          aboutSwipeBaseX = getAboutTrackX();
           aboutTrack.style.transition = 'none';
+          aboutTrack.style.transform = 'translateX(' + aboutSwipeBaseX + 'px)';
         }, { passive: true });
 
         aboutTrack.addEventListener('touchmove', function (e) {
-          if (aboutIsScrolling) return;
+          if (aboutSwipeDir === 'v') return;
 
-          var touch = e.touches[0];
-          aboutDiffX = touch.clientX - aboutStartX;
-          var aboutDiffY = touch.clientY - aboutStartY;
+          aboutSwipeDiffX = e.touches[0].clientX - aboutSwipeStartX;
+          var dy = e.touches[0].clientY - aboutSwipeStartY;
 
-          // Detecta se o movimento é vertical ou horizontal
-          if (!aboutIsDragging && !aboutIsScrolling) {
-            var absAboutX = Math.abs(aboutDiffX);
-            var absAboutY = Math.abs(aboutDiffY);
-            if (Math.max(absAboutX, absAboutY) < 8) return;
-            if (absAboutY > absAboutX) {
-              aboutIsScrolling = true;
+          if (!aboutSwipeDir) {
+            if (Math.abs(aboutSwipeDiffX) < 5 && Math.abs(dy) < 5) return;
+            aboutSwipeDir = Math.abs(aboutSwipeDiffX) >= Math.abs(dy) ? 'h' : 'v';
+            if (aboutSwipeDir === 'v') {
               aboutTrack.style.transition = '';
               return;
-            } else {
-              aboutIsDragging = true;
             }
           }
 
-          if (aboutIsDragging) {
-            if (e.cancelable) e.preventDefault();
+          if (e.cancelable) e.preventDefault();
 
-            var slideWidth = getAboutSlideWidth();
-            var maxOffset = -(aboutSlides.length - 1) * slideWidth;
-            var newTranslateX = aboutCurrentOffset + aboutDiffX;
-
-            // Efeito elástico (resistência) nos limites do carrossel
-            if (newTranslateX > 0) {
-              newTranslateX = newTranslateX * 0.3;
-            } else if (newTranslateX < maxOffset) {
-              var overscroll = newTranslateX - maxOffset;
-              newTranslateX = maxOffset + overscroll * 0.3;
-            }
-
-            aboutTrack.style.transform = 'translateX(' + newTranslateX + 'px)';
+          var slideWidth = getAboutSlideWidth();
+          var maxOffset = -(aboutSlides.length - 1) * slideWidth;
+          var newX = aboutSwipeBaseX + aboutSwipeDiffX;
+          if (newX > 0) {
+            newX = newX * 0.3;
+          } else if (newX < maxOffset) {
+            newX = maxOffset + (newX - maxOffset) * 0.3;
           }
+
+          aboutTrack.style.transform = 'translateX(' + newX + 'px)';
         }, { passive: false });
 
-        aboutTrack.addEventListener('touchend', function (e) {
-          if (!aboutIsDragging) {
-            aboutTrack.style.transition = '';
-            return;
-          }
-          aboutIsDragging = false;
-
-          // Restaura a transição suave
+        aboutTrack.addEventListener('touchend', function () {
           aboutTrack.style.transition = '';
-
-          // Threshold para avançar/voltar o slide (60px)
+          if (aboutSwipeDir !== 'h') return;
           var threshold = 60;
-          if (aboutDiffX < -threshold) {
+          if (aboutSwipeDiffX < -threshold) {
             goToAboutSlide(aboutCurrentIndex + 1);
-          } else if (aboutDiffX > threshold) {
+          } else if (aboutSwipeDiffX > threshold) {
             goToAboutSlide(aboutCurrentIndex - 1);
           } else {
             goToAboutSlide(aboutCurrentIndex);
           }
+        });
+
+        aboutTrack.addEventListener('touchcancel', function () {
+          aboutTrack.style.transition = '';
+          aboutSwipeDir = null;
+          goToAboutSlide(aboutCurrentIndex);
         });
       }
 
