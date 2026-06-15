@@ -100,7 +100,7 @@
       object-fit: cover;
       object-position: center;
       z-index: 0;
-      filter: brightness(0.35) contrast(1.05) saturate(0.6);
+      filter: brightness(0.18) contrast(1.1) saturate(0.4);
     }
 
 
@@ -109,7 +109,7 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(to top, rgba(7, 7, 12, 1) 0%, rgba(7, 7, 12, 0.55) 50%, rgba(7, 7, 12, 0.2) 100%);
+        linear-gradient(to top, rgba(7, 7, 12, 1) 0%, rgba(7, 7, 12, 0.7) 50%, rgba(7, 7, 12, 0.4) 100%);
       z-index: 1;
       pointer-events: none;
     }
@@ -186,13 +186,25 @@
     }
 
     /* CTA — button-in-button */
+    @keyframes cta-pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(255, 210, 52, 0.25), 0 0 60px rgba(255, 210, 52, 0.08);
+      }
+      50% {
+        transform: scale(1.03);
+        box-shadow: 0 0 30px rgba(255, 210, 52, 0.45), 0 0 80px rgba(255, 210, 52, 0.15);
+      }
+    }
+
     .btn-cta {
       display: inline-flex;
       align-items: center;
       width: 100%;
       max-width: 360px;
       justify-content: center;
-      background: var(--c-gold);
+      background: linear-gradient(135deg, #FFD234 0%, #FFBE0B 50%, #FFD234 100%);
+      background-size: 200% 200%;
       color: #07070C;
       font-family: inherit;
       font-size: clamp(0.95rem, 3vw, 1.05rem);
@@ -200,19 +212,46 @@
       border-radius: 999px;
       padding: 5px 5px 5px 22px;
       margin-top: 4px;
-      box-shadow: 0 0 40px var(--c-gold-glow);
-      transition: transform 600ms var(--ease-spring), box-shadow 600ms var(--ease-spring), filter 250ms ease;
+      box-shadow: 0 0 20px rgba(255, 210, 52, 0.25), 0 0 60px rgba(255, 210, 52, 0.08);
+      animation: cta-pulse 2.2s ease-in-out infinite;
       -webkit-tap-highlight-color: transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Shimmer/shine sweep */
+    .btn-cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.35) 50%,
+        transparent 100%
+      );
+      animation: cta-shine 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes cta-shine {
+      0%, 100% { left: -100%; }
+      60% { left: 150%; }
     }
 
     .btn-cta:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 0 56px rgba(255, 210, 52, 0.45);
-      filter: brightness(1.06);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 0 40px rgba(255, 210, 52, 0.5), 0 0 100px rgba(255, 210, 52, 0.2);
+      filter: brightness(1.08);
+      animation: none;
     }
 
     .btn-cta:active {
-      transform: scale(0.98);
+      transform: scale(0.97);
+      animation: none;
     }
 
     .btn-cta__icon {
@@ -229,7 +268,7 @@
     }
 
     .btn-cta:hover .btn-cta__icon {
-      transform: translateX(2px) translateY(-1px) scale(1.1);
+      transform: translateX(3px) scale(1.15);
     }
 
     /* Garantia */
@@ -2731,44 +2770,36 @@
     }
 
     .hero-logo__eyebrow {
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      color: rgba(255, 255, 255, 0.9);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .hero-logo__main-group {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.72rem;
-      font-weight: 400;
-      letter-spacing: 0.06em;
-      color: rgba(255, 255, 255, 0.75);
-      text-transform: none;
-      margin-bottom: 2px;
+      gap: 12px;
+      margin-bottom: 4px;
     }
 
-    .hero-logo__line {
-      flex: 1;
-      height: 1px;
-      min-width: 80px;
-      background: linear-gradient(to right, rgba(255, 255, 255, 0.15), #c8922a, #f5e07a, #c8922a, rgba(255, 255, 255, 0.05));
-      position: relative;
-    }
-
-    .hero-logo__line img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 28px;
-      height: 28px;
+    .hero-logo__icon {
+      width: clamp(36px, 8vw, 48px);
+      height: clamp(36px, 8vw, 48px);
       object-fit: contain;
-      mix-blend-mode: screen;
-      filter: drop-shadow(0 0 6px rgba(255, 210, 52, 0.8));
-      animation: float-gear 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 8px rgba(255, 210, 52, 0.5));
+      animation: rotate-gear 12s linear infinite;
+      flex-shrink: 0;
     }
 
-    @keyframes float-gear {
-      0%, 100% {
-        transform: translate(-50%, -50%) translateY(0);
+    @keyframes rotate-gear {
+      0% {
+        transform: rotate(0deg);
       }
-      50% {
-        transform: translate(-50%, -50%) translateY(-3px);
+      100% {
+        transform: rotate(360deg);
       }
     }
 
@@ -2801,10 +2832,6 @@
         padding: 0;
         margin-bottom: 28px;
       }
-
-      .hero-logo__line {
-        min-width: 160px;
-      }
     }
   </style>
 </head>
@@ -2826,12 +2853,12 @@
       <!-- Logo -->
       <div class="hero-logo reveal">
         <div class="hero-logo__eyebrow">
-          <span>Curso</span>
-          <span class="hero-logo__line">
-            <img src="imgs/gear_3d.png" alt="Engrenagem 3D" />
-          </span>
+          <span>Método</span>
         </div>
-        <span class="hero-logo__main">Autopeças</span>
+        <div class="hero-logo__main-group">
+          <img class="hero-logo__icon" src="imgs/gear_3d.png" alt="Engrenagem 3D" />
+          <span class="hero-logo__main">Autopeças</span>
+        </div>
         <span class="hero-logo__sub">no Mercado Livre</span>
       </div>
 
@@ -3150,6 +3177,20 @@
           <p class="for-whom-card__desc">Quer empreender no e-commerce de autopeças mesmo sem ter CNPJ, loja física,
             fornecedores ou conhecimento prévio da plataforma.</p>
         </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="modules__cta" style="margin-top: 8px;">
+        <a href="https://pay.kiwify.com.br/9HdF9Zl" class="btn-cta"
+          onclick="typeof fbq!=='undefined' && fbq('track','InitiateCheckout')" target="_blank" rel="noopener">
+          Quero começar agora
+          <span class="btn-cta__icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </span>
+        </a>
       </div>
     </div>
   </section>
@@ -3899,9 +3940,8 @@
         <!-- Card WhatsApp -->
         <div class="support-card support-card--whatsapp">
           <div class="support-icon-wrap support-icon-wrap--whatsapp">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.66.986 3.287 1.487 4.908 1.488 5.344 0 9.7-4.35 9.703-9.686.002-2.585-1.002-5.016-2.83-6.848-1.829-1.83-4.258-2.835-6.843-2.836-5.348 0-9.704 4.352-9.707 9.688a9.584 9.584 0 0 0 1.547 5.176l-.997 3.637 3.73-.977zm11.398-6.828c-.287-.144-1.702-.84-1.965-.936-.264-.096-.456-.144-.648.144-.192.288-.744.936-.912 1.128-.168.192-.336.216-.624.072-2.825-1.415-4.607-3.413-5.404-4.786-.21-.362.21-.336.6-.112.35.202.82.97.915 1.156.096.192.048.36-.024.504-.072.144-.648 1.56-.792 1.902-.14.336-.282.288-.475.192-.193-.096-.813-.299-1.547-.954-.572-.51-1.006-1.14-1.127-1.348-.12-.208-.013-.32.083-.416.086-.086.208-.24.312-.36.104-.12.14-.204.208-.344.068-.14.034-.264-.017-.36-.051-.096-.456-1.099-.624-1.503-.164-.396-.344-.342-.475-.349-.12-.006-.264-.007-.407-.007s-.384.054-.585.276c-.2.222-.765.748-.765 1.824 0 1.077.783 2.115.891 2.262.11.147 1.542 2.355 3.735 3.301.52.225.928.36 1.246.462.523.167.999.143 1.376.088.42-.062 1.702-.696 1.942-1.368.24-.672.24-1.248.168-1.368-.072-.12-.264-.192-.552-.336z" />
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16.004 2.667A13.28 13.28 0 0 0 2.72 15.953a13.18 13.18 0 0 0 1.98 6.94L2.667 29.333l6.627-2.107A13.28 13.28 0 0 0 16.004 29.333c7.352 0 13.329-5.973 13.329-13.333S23.356 2.667 16.004 2.667zm0 24.266a10.88 10.88 0 0 1-5.88-1.72l-.413-.253-3.933 1.247 1.26-3.84-.28-.44a10.84 10.84 0 0 1-1.693-5.98c0-6.013 4.893-10.907 10.94-10.907 6.04 0 10.933 4.894 10.933 10.907 0 6.053-4.893 10.986-10.933 10.986zm6-8.187c-.333-.166-1.94-.96-2.24-1.066-.3-.107-.52-.167-.74.167-.22.333-.847 1.066-1.04 1.286-.193.22-.38.247-.713.08-.333-.166-1.407-.52-2.68-1.66-.99-.887-1.66-1.98-1.853-2.313-.193-.333-.02-.513.147-.68.147-.147.333-.38.5-.573.167-.193.22-.333.333-.553.113-.22.053-.413-.027-.573-.08-.167-.74-1.787-.987-2.427-.266-.666-.533-.553-.74-.56h-.627c-.22 0-.573.08-.873.413-.3.333-1.147 1.12-1.147 2.733 0 1.613 1.173 3.173 1.34 3.393.167.22 2.307 3.52 5.587 4.94.78.34 1.387.54 1.86.693.787.247 1.5.213 2.06.127.627-.093 1.94-.793 2.213-1.56.273-.767.273-1.427.193-1.56-.08-.133-.3-.22-.633-.38z"/>
             </svg>
           </div>
           <h3 class="support-card__title">Suporte via WhatsApp</h3>
