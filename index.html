@@ -4616,6 +4616,13 @@
           }
         }
 
+        function getAboutSlideWidth() {
+          if (aboutSlides[0]) {
+            return aboutSlides[0].getBoundingClientRect().width || aboutSlides[0].offsetWidth;
+          }
+          return aboutTrack.getBoundingClientRect().width || aboutTrack.offsetWidth || window.innerWidth;
+        }
+
         function goToAboutSlide(index) {
           if (index < 0) {
             aboutCurrentIndex = 0;
@@ -4625,11 +4632,9 @@
             aboutCurrentIndex = index;
           }
 
-          var targetSlide = aboutSlides[aboutCurrentIndex];
-          if (targetSlide) {
-            var offset = targetSlide.offsetLeft;
-            aboutTrack.style.transform = 'translateX(-' + offset + 'px)';
-          }
+          var slideWidth = getAboutSlideWidth();
+          var offset = aboutCurrentIndex * slideWidth;
+          aboutTrack.style.transform = 'translateX(-' + offset + 'px)';
 
           var dots = aboutDotsContainer.querySelectorAll('.about-dot');
           dots.forEach(function (dot, idx) {
@@ -4690,12 +4695,8 @@
           aboutIsDragging = false;
           aboutIsScrolling = false;
 
-          var currentSlideEl = aboutSlides[aboutCurrentIndex];
-          if (currentSlideEl) {
-            aboutCurrentOffset = -currentSlideEl.offsetLeft;
-          } else {
-            aboutCurrentOffset = 0;
-          }
+          var slideWidth = getAboutSlideWidth();
+          aboutCurrentOffset = -aboutCurrentIndex * slideWidth;
 
           // Desativa a transição CSS para que o arrastar siga o dedo instantaneamente
           aboutTrack.style.transition = 'none';
@@ -4722,7 +4723,8 @@
           if (aboutIsDragging) {
             if (e.cancelable) e.preventDefault();
 
-            var maxOffset = aboutSlides[aboutSlides.length - 1] ? -aboutSlides[aboutSlides.length - 1].offsetLeft : 0;
+            var slideWidth = getAboutSlideWidth();
+            var maxOffset = -(aboutSlides.length - 1) * slideWidth;
             var newTranslateX = aboutCurrentOffset + aboutDiffX;
 
             // Efeito elástico (resistência) nos limites do carrossel
